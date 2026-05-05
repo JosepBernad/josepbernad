@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.13.4] - 2026-05-05
+
+### Fixed
+- Festa Tremolartà date in `src/_data/live.json` corrected from 2026-06-25 to 2026-07-25.
+
 ## [1.13.3] - 2026-05-05
 
 ### Fixed
