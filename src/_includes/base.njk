@@ -226,7 +226,7 @@
         "name": {{ film.title | dump | safe }},
         "description": {{ ((film.tags | join(", ")) + ", recorded in " + film.location) | dump | safe }},
         "thumbnailUrl": "https://img.youtube.com/vi/{{ film.videoId }}/maxresdefault.jpg",
-        "uploadDate": "{{ film.date }}-01",
+        "uploadDate": "{{ film.date }}-01T00:00:00Z",
         "contentUrl": {{ film.url | dump | safe }},
         "embedUrl": "https://www.youtube.com/embed/{{ film.videoId }}",
         "publisher": {

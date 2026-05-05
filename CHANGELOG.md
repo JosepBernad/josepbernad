@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.13.1] - 2026-05-05
+
+### Fixed
+- VideoObject JSON-LD `uploadDate` now emits a full ISO 8601 datetime with explicit UTC timezone (`YYYY-MM-01T00:00:00Z`) instead of a date-only string. Resolves Google Search Console structured data warnings ("Invalid datetime value for uploadDate" and "Datetime property uploadDate is missing a timezone").
+
+### Changed
+- `/dev/rider/` localhost preview: DJ/LIVE selector moved out of the header toolbar onto a floating pill at the bottom-center of the PDF viewer frame, so the kind toggle is closer to the viewport and the header stays visually anchored on the language tabs.
+
 ## [1.13.0] - 2026-04-28
 
 ### Changed
