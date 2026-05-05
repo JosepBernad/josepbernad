@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.13.3] - 2026-05-05
+
+### Fixed
+- Press-kit zip (`src/press-kit/josep-bernad-press-kit.zip`) was bundling a truncated 3 KB stub for `josep-bernad-rider-dj-en.pdf` instead of the full 31 KB rider. Rebuilt zip now contains the correct English DJ rider PDF.
+
 ## [1.13.2] - 2026-05-05
 
 ### Changed
