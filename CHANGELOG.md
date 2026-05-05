@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.13.2] - 2026-05-05
+
+### Changed
+- Renamed npm package from `josepbernad.com` to `josepbernad` in `package.json` (and `package-lock.json`). Production domain references in `src/` are unchanged.
+
 ## [1.13.1] - 2026-05-05
 
 ### Fixed
