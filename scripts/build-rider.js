@@ -21,7 +21,6 @@ const PDFDocument = require("pdfkit");
 const PDF_EPOCH = new Date("2020-01-01T00:00:00Z");
 
 const PRESSKIT_PATH = path.join(__dirname, "..", "src", "_data", "presskit.json");
-const PKG_PATH = path.join(__dirname, "..", "package.json");
 const OUT_DIR = path.join(__dirname, "..", "src", "press-kit");
 const FILE_PREFIX = "josep-bernad-rider-";
 const LANGS = ["en", "es", "ca"];
@@ -139,7 +138,7 @@ function renderList(doc, x, yStart, colW, title, badge, list) {
   return y;
 }
 
-function buildOne(kind, lang, presskit, pkg) {
+function buildOne(kind, lang, presskit) {
   const rider = presskit.rider[lang];
   const s = presskit.strings[lang];
   const labels = rider.pdfLabels || { note: "Note", backline: "Backline", booking: "Booking" };
@@ -179,11 +178,6 @@ function buildOne(kind, lang, presskit, pkg) {
   // === Header strip ===
   let y = M;
   caps(doc, s.riderTitle, M, y, { size: 8, color: INK, spacing: 2 });
-  const today = new Date().toISOString().slice(0, 10);
-  doc.font("Courier").fontSize(8.5).fillColor(MUTED);
-  doc.text(`${today}  ·  v${pkg.version}`, M, y, {
-    width: CW, align: "right", lineBreak: false,
-  });
   y += 22;
 
   // Wordmark (real logo asset, falls back to typed text if PNG missing).
@@ -276,11 +270,10 @@ function buildOne(kind, lang, presskit, pkg) {
 
 async function buildRider() {
   const presskit = loadFresh(PRESSKIT_PATH);
-  const pkg = loadFresh(PKG_PATH);
   const outputs = [];
   for (const lang of LANGS) {
     for (const kind of KINDS) {
-      outputs.push(await buildOne(kind, lang, presskit, pkg));
+      outputs.push(await buildOne(kind, lang, presskit));
     }
   }
   return outputs;

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.19.0] - 2026-05-07
+
+### Changed
+- Removed the `today  ·  v${pkg.version}` line from the top-right of every rider PDF in `scripts/build-rider.js`. The stamp regenerated the PDFs on every version bump and every calendar-day rollover, even when no rider content had changed (the recurring "phantom diff" pattern). With it gone, rider PDFs only change when the underlying rider content does. Dropped now-unused `PKG_PATH` and `pkg` plumbing.
+
 ## [1.18.2] - 2026-05-07
 
 ### Changed
