@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.18.2] - 2026-05-07
+
+### Changed
+- Regenerated rider PDFs (`src/press-kit/josep-bernad-rider-{dj,live}-{ca,en,es}.pdf`) and the bundled `src/press-kit/josep-bernad-press-kit.zip` so the embedded version stamp tracks the new package version.
+
 ## [1.18.1] - 2026-05-07
 
 ### Changed
