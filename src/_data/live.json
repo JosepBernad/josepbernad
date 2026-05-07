@@ -2,7 +2,7 @@
   "upcoming": [
     {
       "date": "2026-05-08",
-      "event": "Spritz & art",
+      "event": "Spritz & Art",
       "venue": {
         "en": "Licors Moyà Wine Shop, Artà",
         "es": "Vinoteca Licors Moyà, Artà",
@@ -130,6 +130,17 @@
     }
   ],
   "past": [
+    {
+      "date": "2026-02-07",
+      "event": "ES VERMUT des Pas",
+      "venue": {
+        "en": "Es Pas a Nivell, Artà",
+        "es": "Es Pas a Nivell, Artà",
+        "ca": "Es Pas a Nivell, Artà"
+      },
+      "time": "12h",
+      "soundcloudUrl": "https://soundcloud.com/djosepbernad/es-vermut-des-pas-josep-bernad-dj-set-extended"
+    },
     {
       "date": "2026-04-26",
       "event": {

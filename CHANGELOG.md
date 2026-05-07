@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.15.0] - 2026-05-07
+
+### Added
+- Optional `soundcloudUrl` field on past `live.json` entries renders an inline SoundCloud HTML5 widget on past `/live` cards (full-grid-width row, default SoundCloud orange accent, lazy-loaded). Wired in `src/pages/live.njk` and styled via `.live-soundcloud` in `src/css/styles.css`.
+- New past show in `src/_data/live.json`: "ES VERMUT des Pas" on 2026-02-07 at 12h in Es Pas a Nivell, Artà, with `soundcloudUrl` pointing to the recorded session.
+- "ES VERMUT" (uppercase) is now picked up by the `.live-event-bebas` font replacer in `src/pages/live.njk`, alongside the existing "Es Vermut" form.
+
+### Changed
+- "Spritz & art" renamed to "Spritz & Art" in `src/_data/live.json`; the `.live-event-spritz` font replacer in `src/pages/live.njk` updated to match the new capitalization.
+
 ## [1.14.0] - 2026-05-07
 
 ### Added

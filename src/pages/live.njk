@@ -37,7 +37,7 @@ eleventyComputed:
         <span class="year">{{ ev.date | liveYear }}</span>
       </div>
       <div class="live-info">
-        <h3 class="live-event">{{ (ev.event[currentLang] if ev.event[currentLang] else ev.event) | replace("Mainly House Music", '<span class="live-event-tag">Mainly House Music</span>') | replace("Es Vermut", '<span class="live-event-bebas">Es Vermut</span>') | replace("Spritz & art", '<span class="live-event-spritz">Spritz &amp; art</span>') | safe }}</h3>
+        <h3 class="live-event">{{ (ev.event[currentLang] if ev.event[currentLang] else ev.event) | replace("Mainly House Music", '<span class="live-event-tag">Mainly House Music</span>') | replace("ES VERMUT", '<span class="live-event-bebas">ES VERMUT</span>') | replace("Es Vermut", '<span class="live-event-bebas">Es Vermut</span>') | replace("Spritz & Art", '<span class="live-event-spritz">Spritz &amp; Art</span>') | safe }}</h3>
         <p class="live-venue">{{ ev.venue[currentLang] }}</p>
         <p class="live-desc">{{ ev.description[currentLang] | safe }}</p>
       </div>
@@ -69,14 +69,14 @@ eleventyComputed:
   <div class="live-list live-list--past">
     {% for ev in past %}
 {%- set evTitleSafe = ev.event[currentLang] if ev.event[currentLang] else ev.event -%}
-    <article class="live-card is-past{% if ev.tracklist %} has-tracklist{% endif %}{% if ev.videoId %} has-video{% endif %}{% if ev.dateApprox %} date-approx{% endif %}">
+    <article class="live-card is-past{% if ev.tracklist %} has-tracklist{% endif %}{% if ev.videoId %} has-video{% endif %}{% if ev.soundcloudUrl %} has-soundcloud{% endif %}{% if ev.dateApprox %} date-approx{% endif %}">
       <div class="live-date">
         {% if not ev.dateApprox %}<span class="day">{{ ev.date | liveDay }}</span>{% endif %}
         <span class="month">{{ ev.date | liveMonth(currentLang) }}</span>
         <span class="year">{{ ev.date | liveYear }}</span>
       </div>
       <div class="live-info">
-        <h3 class="live-event">{{ evTitleSafe | replace("Mainly House Music", '<span class="live-event-tag">Mainly House Music</span>') | replace("Es Vermut", '<span class="live-event-bebas">Es Vermut</span>') | replace("Spritz & art", '<span class="live-event-spritz">Spritz &amp; art</span>') | safe }}</h3>
+        <h3 class="live-event">{{ evTitleSafe | replace("Mainly House Music", '<span class="live-event-tag">Mainly House Music</span>') | replace("ES VERMUT", '<span class="live-event-bebas">ES VERMUT</span>') | replace("Es Vermut", '<span class="live-event-bebas">Es Vermut</span>') | replace("Spritz & Art", '<span class="live-event-spritz">Spritz &amp; Art</span>') | safe }}</h3>
         <p class="live-venue">{{ ev.venue[currentLang] }}</p>
       </div>
       {% if ev.videoId %}
@@ -87,6 +87,19 @@ eleventyComputed:
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </span>
         </button>
+      </div>
+      {% endif %}
+      {% if ev.soundcloudUrl %}
+      <div class="live-soundcloud" aria-label="SoundCloud session">
+        <iframe
+          loading="lazy"
+          width="100%"
+          height="120"
+          scrolling="no"
+          frameborder="no"
+          allow="autoplay"
+          src="https://w.soundcloud.com/player/?url={{ ev.soundcloudUrl | urlencode }}&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false"
+          title="SoundCloud session: {{ evTitleSafe }}"></iframe>
       </div>
       {% endif %}
       {% if ev.tracklist %}

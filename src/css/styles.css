@@ -3635,6 +3635,29 @@ html:has(.error-page) body::after {
   padding-bottom: 1rem;
 }
 
+.live-card.has-soundcloud {
+  align-items: start;
+  padding-bottom: 1rem;
+}
+
+.live-soundcloud {
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 0.85rem;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(127, 127, 127, 0.18);
+  background: rgba(127, 127, 127, 0.04);
+}
+
+.live-soundcloud iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+  color-scheme: light;
+}
+
 .live-tracklist {
   grid-column: 1 / -1;
   min-width: 0;
