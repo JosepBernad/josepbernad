@@ -13,7 +13,12 @@
  */
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 const PDFDocument = require("pdfkit");
+
+// Fixed epoch so PDFKit doesn't stamp `new Date()` into CreationDate/ModDate
+// on every build, which would dirty `git status` with metadata-only diffs.
+const PDF_EPOCH = new Date("2020-01-01T00:00:00Z");
 
 const PRESSKIT_PATH = path.join(__dirname, "..", "src", "_data", "presskit.json");
 const PKG_PATH = path.join(__dirname, "..", "package.json");
@@ -151,12 +156,21 @@ function buildOne(kind, lang, presskit, pkg) {
       Keywords: `rider, ${kind.id} set, technical, booking`,
       Creator: "josepbernad.com",
       Producer: "josepbernad.com",
+      CreationDate: PDF_EPOCH,
+      ModDate: PDF_EPOCH,
     },
   });
+  // Override pdfkit's random /ID trailer with a deterministic one derived
+  // from the output filename, so byte-identical content produces byte-identical PDFs.
+  doc._id = crypto.createHash("md5").update(path.basename(out)).digest();
 
   fs.mkdirSync(path.dirname(out), { recursive: true });
-  const stream = fs.createWriteStream(out);
-  doc.pipe(stream);
+  // Collect pdfkit's output into memory and write it synchronously at the
+  // end. Piping `doc` into an fs.WriteStream raced with pdfkit's image
+  // embedding: the writable would emit 'finish'/'close' before pdfkit had
+  // pushed all bytes, leaving stub PDFs on disk (recurring 1.13.3 bug).
+  const chunks = [];
+  doc.on("data", (c) => chunks.push(c));
 
   const W = doc.page.width;
   const H = doc.page.height;
@@ -172,11 +186,15 @@ function buildOne(kind, lang, presskit, pkg) {
   });
   y += 22;
 
-  // Wordmark (real logo asset, falls back to typed text if PNG missing)
+  // Wordmark (real logo asset, falls back to typed text if PNG missing).
+  // Read into a Buffer first: passing a path lets pdfkit decide when to read
+  // the file, which has historically raced with build-presskit.js's wordmark
+  // regeneration step and produced rider PDFs without the embedded logo.
   const wordmarkW = 320;
   const wordmarkH = wordmarkW / WORDMARK_ASPECT;
   if (fs.existsSync(WORDMARK_PNG)) {
-    doc.image(WORDMARK_PNG, M, y, { width: wordmarkW });
+    const wordmarkBuf = fs.readFileSync(WORDMARK_PNG);
+    doc.image(wordmarkBuf, M, y, { width: wordmarkW });
   } else {
     doc.font("Helvetica-Bold").fontSize(40).fillColor(INK);
     doc.text("JOSEP BERNAD", M, y, { characterSpacing: 5, lineBreak: false });
@@ -242,11 +260,17 @@ function buildOne(kind, lang, presskit, pkg) {
   doc.link(rightEdge - siteW, emailY, siteW, 11, "https://josepbernad.com");
   doc.link(rightEdge - igW, phoneY, igW, 11, "https://www.instagram.com/djosepbernad/");
 
-  doc.end();
-
   return new Promise((resolve, reject) => {
-    stream.on("finish", () => resolve(out));
-    stream.on("error", reject);
+    doc.on("end", () => {
+      try {
+        fs.writeFileSync(out, Buffer.concat(chunks));
+        resolve(out);
+      } catch (err) {
+        reject(err);
+      }
+    });
+    doc.on("error", reject);
+    doc.end();
   });
 }
 

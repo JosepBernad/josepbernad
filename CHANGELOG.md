@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.16.1] - 2026-05-07
+
+### Fixed
+- Press-kit zip and rider PDFs are now byte-deterministic across rebuilds. Previously every `npm run build:presskit` run dirtied `git status` for `src/press-kit/josep-bernad-press-kit.zip` and `src/press-kit/josep-bernad-rider-{dj,live}-{ca,en,es}.pdf` even when no source content had changed.
+- Resolved the recurring 1.13.3 truncated-rider-PDF bug (random rider showing as a ~3 KB stub inside the zip on roughly 75% of rebuilds). Root cause was a race in `scripts/build-rider.js`: the writable stream emitted `'finish'` before pdfkit had finished pushing image bytes through the pipe, so the next step read partial content. `buildOne` now collects pdfkit's chunks in memory and writes the full buffer with `fs.writeFileSync` after pdfkit emits `'end'`.
+
+### Changed
+- `scripts/build-rider.js` pins `CreationDate`/`ModDate` to a fixed epoch and overrides pdfkit's random `/ID` trailer with an md5 of the output filename, so byte-identical content produces byte-identical PDFs.
+- `scripts/build-presskit.js` pins zip entry timestamps to the same fixed epoch, sorts public files for stable entry order, and appends each entry as an in-memory Buffer to remove archiver's lazy file-read race.
+
 ## [1.16.0] - 2026-05-07
 
 ### Changed

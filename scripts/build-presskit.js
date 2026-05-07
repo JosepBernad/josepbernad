@@ -72,6 +72,12 @@ async function buildOne(srcPath) {
   return { name, outputs };
 }
 
+// Fixed epoch for zip entry timestamps, matching PDF_EPOCH in build-rider.js.
+// Without this, archiver reads each file's mtime from disk and embeds it in
+// the zip header, dirtying `git status` on every rebuild even when the
+// archived files are byte-identical.
+const ZIP_EPOCH = new Date("2020-01-01T00:00:00Z");
+
 function buildZip(publicFiles) {
   return new Promise((resolve, reject) => {
     const zipPath = path.join(OUT_DIR, ZIP_NAME);
@@ -86,8 +92,14 @@ function buildZip(publicFiles) {
     archive.on("error", reject);
 
     archive.pipe(stream);
-    for (const f of publicFiles) {
-      archive.file(f, { name: path.basename(f) });
+    // Sort to guarantee a stable entry order across filesystems.
+    const sorted = [...publicFiles].sort();
+    // Read bytes synchronously and append as Buffers, instead of letting
+    // archiver lazily fs.createReadStream(path) at finalize-time. The lazy
+    // path raced with pdfkit stream flushing and intermittently produced
+    // truncated/zero-byte rider PDFs inside the zip (the bug behind 1.13.3).
+    for (const f of sorted) {
+      archive.append(fs.readFileSync(f), { name: path.basename(f), date: ZIP_EPOCH });
     }
     archive.finalize();
   });
