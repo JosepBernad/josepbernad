@@ -75,20 +75,23 @@ module.exports = function(eleventyConfig) {
     const d = String(parseInt(day, 10) || "").trim();
     return `${d} ${months[monthIdx] || ""}`.trim();
   });
-  // Filter upcoming events: only those with date >= today
+  // Filter upcoming events: only those with date >= today, excluding hidden
   eleventyConfig.addFilter("upcomingOnly", (events) => {
     if (!Array.isArray(events)) return [];
     const now = new Date();
     now.setHours(0, 0, 0, 0);
     return events.filter(ev => {
+      if (ev.hidden) return false;
       const d = new Date(ev.date);
       return !isNaN(d) && d >= now;
     }).sort((a, b) => new Date(a.date) - new Date(b.date));
   });
-  // Sort past descending
+  // Sort past descending, excluding hidden
   eleventyConfig.addFilter("pastDesc", (events) => {
     if (!Array.isArray(events)) return [];
-    return [...events].sort((a, b) => new Date(b.date) - new Date(a.date));
+    return events
+      .filter(ev => !ev.hidden)
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
   });
 
   // Add global data for language prefix based on URL

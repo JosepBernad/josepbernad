@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.18.0] - 2026-05-07
+
+### Added
+- `hidden: true` flag on `live.json` entries now removes them from both the upcoming and past lists. Implemented in `.eleventy.js` via `upcomingOnly` and `pastDesc` filters. Lets a show stay in the data file (with tracklist, etc.) without appearing on `/live`.
+
+### Changed
+- Regenerated rider PDFs (`src/press-kit/josep-bernad-rider-{dj,live}-{ca,en,es}.pdf`) so the in-PDF version stamp tracks the new package version.
+
 ## [1.17.0] - 2026-05-07
 
 ### Added
