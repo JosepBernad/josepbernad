@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.18.1] - 2026-05-07
+
+### Changed
+- `src/llms-full.njk` now renders past shows through the `pastDesc` filter (instead of iterating `live.past` directly), so `hidden: true` entries are dropped from the LLM-targeted markdown alongside the rendered `/live` pages.
+- Marked the 2026-04-26 "Mainly House Music at Angels" entry in `src/_data/live.json` as `hidden: true`. It is a duplicate of the 2026-04-30 SoundCloud-recorded set added in 1.17.0; the recorded version is the canonical public entry.
+
 ## [1.18.0] - 2026-05-07
 
 ### Added

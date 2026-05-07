@@ -94,8 +94,9 @@ No upcoming dates announced at the moment.
 
 ## Past live shows
 
-{% if live.past and live.past.length %}
-{% for ev in live.past %}
+{% set pastEvents = live.past | pastDesc %}
+{% if pastEvents.length %}
+{% for ev in pastEvents %}
 {% set evName = ev.event.en if ev.event.en else ev.event %}
 - **{{ ev.date }}**: {{ evName }} at {{ ev.venue.en }}.
 {% endfor %}
