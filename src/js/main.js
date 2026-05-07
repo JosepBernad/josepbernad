@@ -40,9 +40,9 @@ function getInitialTheme() {
   const saved = localStorage.getItem(THEME_KEY);
   if (saved) return saved;
 
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
+  return window.matchMedia('(prefers-color-scheme: light)').matches
+    ? 'light'
+    : 'dark';
 }
 
 function setTheme(theme) {
@@ -67,9 +67,9 @@ toggles.forEach((t) => {
   });
 });
 
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
   if (!localStorage.getItem(THEME_KEY)) {
-    setTheme(e.matches ? 'dark' : 'light');
+    setTheme(e.matches ? 'light' : 'dark');
   }
 });
 

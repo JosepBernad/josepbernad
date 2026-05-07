@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.16.0] - 2026-05-07
+
+### Changed
+- Default theme is now dark for visitors with no saved preference and no explicit `prefers-color-scheme: light` system setting. Previously the default was light unless the system preferred dark. Updated in `src/_includes/base.njk` (inline pre-paint script) and `src/js/main.js` (`getInitialTheme` and the `prefers-color-scheme` change listener).
+
 ## [1.15.0] - 2026-05-07
 
 ### Added
