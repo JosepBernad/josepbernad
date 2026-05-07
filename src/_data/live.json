@@ -131,6 +131,21 @@
   ],
   "past": [
     {
+      "date": "2026-04-30",
+      "event": {
+        "en": "Mainly House Music at Angels",
+        "es": "Mainly House Music en Angels",
+        "ca": "Mainly House Music a Angels"
+      },
+      "venue": {
+        "en": "Angels, Cala Rajada",
+        "es": "Angels, Cala Rajada",
+        "ca": "Angels, Cala Rajada"
+      },
+      "time": "21:00",
+      "soundcloudUrl": "https://soundcloud.com/djosepbernad/mainly-house-music-at-angels-2026-04-30-josep-bernad-dj-set"
+    },
+    {
       "date": "2026-02-07",
       "event": "ES VERMUT des Pas",
       "venue": {

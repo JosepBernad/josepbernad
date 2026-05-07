@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.17.0] - 2026-05-07
+
+### Added
+- New past show in `src/_data/live.json`: "Mainly House Music at Angels" on 2026-04-30 at 21:00 in Angels, Cala Rajada, with en/es/ca event/venue text and a `soundcloudUrl` pointing to the recorded DJ set.
+
 ## [1.16.1] - 2026-05-07
 
 ### Fixed
