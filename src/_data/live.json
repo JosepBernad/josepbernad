@@ -2,7 +2,7 @@
   "upcoming": [
     {
       "date": "2026-05-08",
-      "event": "Presentació Herbes Ecològiques",
+      "event": "Spritz & art",
       "venue": {
         "en": "Licors Moyà Wine Shop, Artà",
         "es": "Vinoteca Licors Moyà, Artà",
@@ -14,6 +14,26 @@
         "en": "Licors Moyà will open herb season with a slow afternoon in the heart of Artà. <a href=\"https://www.instagram.com/sonia_santandreu_ilus/\" target=\"_blank\" rel=\"noopener\">Sonia Santandreu</a> will paint the new ecological herbs onto glass while the music plays and the afternoon stretches on.",
         "es": "Licors Moyà abrirá la temporada de hierbas con una tarde tranquila en el corazón de Artà. <a href=\"https://www.instagram.com/sonia_santandreu_ilus/\" target=\"_blank\" rel=\"noopener\">Sonia Santandreu</a> pintará las nuevas hierbas ecológicas sobre el vidrio mientras la música suena y la tarde se alarga.",
         "ca": "Licors Moyà obrirà la temporada d'herbes amb una tarda tranquil·la al cor d'Artà. <a href=\"https://www.instagram.com/sonia_santandreu_ilus/\" target=\"_blank\" rel=\"noopener\">Sonia Santandreu</a> pintarà les noves herbes ecològiques damunt el vidre mentre la música sona i la tarda s'allarga."
+      }
+    },
+    {
+      "date": "2026-05-08",
+      "event": {
+        "en": "Mainly House Music at Angels",
+        "es": "Mainly House Music en Angels",
+        "ca": "Mainly House Music a Angels"
+      },
+      "venue": {
+        "en": "Angels, Cala Rajada",
+        "es": "Angels, Cala Rajada",
+        "ca": "Angels, Cala Rajada"
+      },
+      "time": "21:30",
+      "map": "https://maps.app.goo.gl/ey6Kb3GzoJZ6kbT58",
+      "description": {
+        "en": "A Friday night set at Angels, house and afro house to open the season by the sea in Cala Rajada.",
+        "es": "Una sesión de viernes noche en Angels, house y afro house para abrir la temporada junto al mar en Cala Rajada.",
+        "ca": "Una sessió de divendres nit a Angels, house i afro house per obrir la temporada vora la mar a Cala Rajada."
       }
     },
     {
@@ -37,15 +57,31 @@
       }
     },
     {
+      "date": "2026-06-06",
+      "event": "Es Vermut de Sa Roda",
+      "venue": {
+        "en": "Sa Roda, Artà",
+        "es": "Sa Roda, Artà",
+        "ca": "Sa Roda, Artà"
+      },
+      "time": "12h",
+      "map": "https://maps.app.goo.gl/f2GQ3hAyAyXtR8nn7",
+      "description": {
+        "en": "A midday vermouth-hour DJ set at Sa Roda, sunny open-air grooves to ease into Saturday.",
+        "es": "Un DJ set a la hora del vermut en Sa Roda, ritmos al aire libre para empezar el sábado con calma.",
+        "ca": "Un DJ set a l'hora del vermut a Sa Roda, ritmes a l'aire lliure per començar el dissabte amb calma."
+      }
+    },
+    {
       "date": "2026-07-25",
       "event": "Festa Tremolartà",
       "venue": {
-        "en": "Na Batlessa, Artà",
-        "es": "Na Batlessa, Artà",
-        "ca": "Na Batlessa, Artà"
+        "en": "Plaça de l'Ajuntament, Artà",
+        "es": "Plaça de l'Ajuntament, Artà",
+        "ca": "Plaça de l'Ajuntament, Artà"
       },
       "time": "20h",
-      "map": "https://maps.app.goo.gl/YZoF6BQJNyKt12G9A",
+      "map": "https://maps.app.goo.gl/Qci4Jq8nYJPCDbvZ9",
       "description": {
         "en": "After going to fetch Na Salvadora, we'll celebrate that Sant Salvador is getting closer, together with the Batucada Tremolartà.",
         "es": "Después de ir a buscar Na Salvadora, celebraremos que Sant Salvador ya está más cerca, junto con la Batucada Tremolartà.",

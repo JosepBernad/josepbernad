@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.14.0] - 2026-05-07
+
+### Added
+- New upcoming show in `src/_data/live.json`: "Mainly House Music at Angels" on 2026-05-08 at 21:30 in Angels, Cala Rajada, with en/es/ca event/venue/description and Google Maps link.
+- New upcoming show in `src/_data/live.json`: "Es Vermut de Sa Roda" on 2026-06-06 at 12h in Sa Roda, Artà, with en/es/ca descriptions and Google Maps link.
+- Self-hosted Bebas Neue and DM Serif Display fonts (`src/css/fonts/bebas-neue-regular-*.woff2`, `src/css/fonts/dm-serif-display-regular-*.woff2`) with `@font-face` rules in `src/css/styles.css`, replacing Google Fonts CDN dependency for these families.
+- Per-event title typography in `/live`: `.live-event-tag` (Sedan, stroked) for "Mainly House Music", `.live-event-bebas` (Bebas Neue) for "Es Vermut", and `.live-event-spritz` (DM Serif Display) for "Spritz & art", wired in `src/pages/live.njk` for both upcoming and past shows.
+
+### Changed
+- Festa Tremolartà venue in `src/_data/live.json` updated from "Na Batlessa, Artà" to "Plaça de l'Ajuntament, Artà" with a new Google Maps link. Date and time unchanged.
+- Renamed 2026-05-08 Licors Moyà event from "Presentació Herbes Ecològiques" to "Spritz & art" in `src/_data/live.json`.
+- Default `.live-event` font in `src/css/styles.css` switched from Sedan serif to a thin system sans (weight 200), so per-event tagged spans carry the typographic personality.
+- Live `.live-date .day` now uses a 0.5px text stroke for a touch more weight at large sizes.
+- Regenerated rider PDFs (`src/press-kit/josep-bernad-rider-{dj,live}-{ca,en,es}.pdf`) and the bundled `src/press-kit/josep-bernad-press-kit.zip`.
+
 ## [1.13.4] - 2026-05-05
 
 ### Fixed

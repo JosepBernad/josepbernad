@@ -28,3 +28,6 @@ npm-debug.log*
 # Test output
 test-results/
 playwright-report/
+
+# Claude Code local state
+.claude/

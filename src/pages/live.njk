@@ -37,7 +37,7 @@ eleventyComputed:
         <span class="year">{{ ev.date | liveYear }}</span>
       </div>
       <div class="live-info">
-        <h3 class="live-event">{{ ev.event[currentLang] if ev.event[currentLang] else ev.event }}</h3>
+        <h3 class="live-event">{{ (ev.event[currentLang] if ev.event[currentLang] else ev.event) | replace("Mainly House Music", '<span class="live-event-tag">Mainly House Music</span>') | replace("Es Vermut", '<span class="live-event-bebas">Es Vermut</span>') | replace("Spritz & art", '<span class="live-event-spritz">Spritz &amp; art</span>') | safe }}</h3>
         <p class="live-venue">{{ ev.venue[currentLang] }}</p>
         <p class="live-desc">{{ ev.description[currentLang] | safe }}</p>
       </div>
@@ -76,7 +76,7 @@ eleventyComputed:
         <span class="year">{{ ev.date | liveYear }}</span>
       </div>
       <div class="live-info">
-        <h3 class="live-event">{{ evTitleSafe }}</h3>
+        <h3 class="live-event">{{ evTitleSafe | replace("Mainly House Music", '<span class="live-event-tag">Mainly House Music</span>') | replace("Es Vermut", '<span class="live-event-bebas">Es Vermut</span>') | replace("Spritz & art", '<span class="live-event-spritz">Spritz &amp; art</span>') | safe }}</h3>
         <p class="live-venue">{{ ev.venue[currentLang] }}</p>
       </div>
       {% if ev.videoId %}
