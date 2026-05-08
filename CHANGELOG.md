@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.19.1] - 2026-05-08
+
+### Added
+- 46-track tracklist for the 2026-04-30 "Mainly House Music at Angels" past gig in `src/_data/live.json`.
+
+### Changed
+- Updated today's "Spritz & Art" gig at Licors Moyà (2026-05-08) start time from `19h` to `18:30`.
+
 ## [1.19.0] - 2026-05-07
 
 ### Changed
