@@ -1,0 +1,26 @@
+name: Daily rebuild
+
+# Triggers a Vercel deploy each day so build-time date logic
+# (e.g. upcoming vs. past live events) stays in sync with reality.
+
+on:
+  schedule:
+    # 04:10 UTC daily = 06:10 Europe/Madrid (CEST) / 05:10 (CET).
+    # Just after midnight Madrid avoids the daily-quota window without
+    # racing exactly at 00:00 UTC when GitHub Actions is busiest.
+    - cron: "10 4 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel deploy hook
+        env:
+          HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK_URL" ]; then
+            echo "VERCEL_DEPLOY_HOOK_URL secret is not set" >&2
+            exit 1
+          fi
+          curl -fsSL -X POST "$HOOK_URL"

@@ -1,42 +1,6 @@
 {
   "upcoming": [
     {
-      "date": "2026-05-08",
-      "event": "Spritz & Art",
-      "venue": {
-        "en": "Licors Moyà Wine Shop, Artà",
-        "es": "Vinoteca Licors Moyà, Artà",
-        "ca": "Vinoteca Licors Moyà, Artà"
-      },
-      "time": "18:30",
-      "map": "https://maps.app.goo.gl/MYD1CPgP2MgNMuk78",
-      "description": {
-        "en": "Licors Moyà will open herb season with a slow afternoon in the heart of Artà. <a href=\"https://www.instagram.com/sonia_santandreu_ilus/\" target=\"_blank\" rel=\"noopener\">Sonia Santandreu</a> will paint the new ecological herbs onto glass while the music plays and the afternoon stretches on.",
-        "es": "Licors Moyà abrirá la temporada de hierbas con una tarde tranquila en el corazón de Artà. <a href=\"https://www.instagram.com/sonia_santandreu_ilus/\" target=\"_blank\" rel=\"noopener\">Sonia Santandreu</a> pintará las nuevas hierbas ecológicas sobre el vidrio mientras la música suena y la tarde se alarga.",
-        "ca": "Licors Moyà obrirà la temporada d'herbes amb una tarda tranquil·la al cor d'Artà. <a href=\"https://www.instagram.com/sonia_santandreu_ilus/\" target=\"_blank\" rel=\"noopener\">Sonia Santandreu</a> pintarà les noves herbes ecològiques damunt el vidre mentre la música sona i la tarda s'allarga."
-      }
-    },
-    {
-      "date": "2026-05-08",
-      "event": {
-        "en": "Mainly House Music at Angels",
-        "es": "Mainly House Music en Angels",
-        "ca": "Mainly House Music a Angels"
-      },
-      "venue": {
-        "en": "Angels, Cala Rajada",
-        "es": "Angels, Cala Rajada",
-        "ca": "Angels, Cala Rajada"
-      },
-      "time": "21:30",
-      "map": "https://maps.app.goo.gl/ey6Kb3GzoJZ6kbT58",
-      "description": {
-        "en": "A Friday night set at Angels, house and afro house to open the season by the sea in Cala Rajada.",
-        "es": "Una sesión de viernes noche en Angels, house y afro house para abrir la temporada junto al mar en Cala Rajada.",
-        "ca": "Una sessió de divendres nit a Angels, house i afro house per obrir la temporada vora la mar a Cala Rajada."
-      }
-    },
-    {
       "date": "2026-05-24",
       "event": {
         "en": "Mainly House Music at Kaafu",
@@ -130,6 +94,42 @@
     }
   ],
   "past": [
+    {
+      "date": "2026-05-08",
+      "event": {
+        "en": "Mainly House Music at Angels",
+        "es": "Mainly House Music en Angels",
+        "ca": "Mainly House Music a Angels"
+      },
+      "venue": {
+        "en": "Angels, Cala Rajada",
+        "es": "Angels, Cala Rajada",
+        "ca": "Angels, Cala Rajada"
+      },
+      "time": "21:30",
+      "map": "https://maps.app.goo.gl/ey6Kb3GzoJZ6kbT58",
+      "description": {
+        "en": "A Friday night set at Angels, house and afro house to open the season by the sea in Cala Rajada.",
+        "es": "Una sesión de viernes noche en Angels, house y afro house para abrir la temporada junto al mar en Cala Rajada.",
+        "ca": "Una sessió de divendres nit a Angels, house i afro house per obrir la temporada vora la mar a Cala Rajada."
+      }
+    },
+    {
+      "date": "2026-05-08",
+      "event": "Spritz & Art",
+      "venue": {
+        "en": "Licors Moyà Wine Shop, Artà",
+        "es": "Vinoteca Licors Moyà, Artà",
+        "ca": "Vinoteca Licors Moyà, Artà"
+      },
+      "time": "18:30",
+      "map": "https://maps.app.goo.gl/MYD1CPgP2MgNMuk78",
+      "description": {
+        "en": "Licors Moyà will open herb season with a slow afternoon in the heart of Artà. <a href=\"https://www.instagram.com/sonia_santandreu_ilus/\" target=\"_blank\" rel=\"noopener\">Sonia Santandreu</a> will paint the new ecological herbs onto glass while the music plays and the afternoon stretches on.",
+        "es": "Licors Moyà abrirá la temporada de hierbas con una tarde tranquila en el corazón de Artà. <a href=\"https://www.instagram.com/sonia_santandreu_ilus/\" target=\"_blank\" rel=\"noopener\">Sonia Santandreu</a> pintará las nuevas hierbas ecológicas sobre el vidrio mientras la música suena y la tarde se alarga.",
+        "ca": "Licors Moyà obrirà la temporada d'herbes amb una tarda tranquil·la al cor d'Artà. <a href=\"https://www.instagram.com/sonia_santandreu_ilus/\" target=\"_blank\" rel=\"noopener\">Sonia Santandreu</a> pintarà les noves herbes ecològiques damunt el vidre mentre la música sona i la tarda s'allarga."
+      }
+    },
     {
       "date": "2026-04-30",
       "event": {

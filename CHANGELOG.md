@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.0] - 2026-05-11
+
+### Added
+- `.github/workflows/daily-rebuild.yml`: scheduled GitHub Actions workflow that POSTs to a Vercel Deploy Hook each day at 04:10 UTC (just after midnight Madrid). Keeps the build-time `upcomingOnly` / `pastDesc` partition in `live.njk` honest about "today" without needing a manual commit to age out past gigs. Requires a `VERCEL_DEPLOY_HOOK_URL` repo secret pointing at a Vercel deploy hook on `main`.
+
+### Changed
+- Migrated the two 2026-05-08 entries (Spritz & Art at Licors Moyà, Mainly House Music at Angels) from `upcoming` to `past` in `src/_data/live.json`. The build-time filter on the previous deploy had baked them as "upcoming" into the static HTML on 2026-05-08; since the site only rebuilds on commit, they stayed in the upcoming section past their date. Moving them now restores correctness immediately; the new daily-rebuild workflow prevents this drift going forward.
+
 ## [1.19.1] - 2026-05-08
 
 ### Added
