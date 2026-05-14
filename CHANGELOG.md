@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.1] - 2026-05-14
+
+### Changed
+- Header rhythm tune-up in `src/css/styles.css`. `.header-name-logo` height `2.4rem → 1.6rem` so the brand mark sits at ~1.9× the nav cap height instead of dominating the bar. `.site-header__left` gap `2rem → 2.75rem` and `.site-nav ul` gap `1.5rem → 1.25rem` to widen the logo→nav moat and tighten the nav into one group (2.2× ratio). On the right cluster, `.site-header__controls` gap `0.5rem → 0.75rem` and `.lang-switcher` gap `0.5rem → 0.4rem` so the EN/CA/ES pills bind tighter while the divider gets proper breathing room around it (≈2.5× intra/inter ratio, matching the left side).
+
+### Fixed
+- Removed the `filter: grayscale(70%)` on `.about-image img` in `src/css/styles.css` so the about-page portrait renders in full color.
+
 ## [1.20.0] - 2026-05-11
 
 ### Added
