@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.2] - 2026-05-14
+
+### Changed
+- Reworded the contact-form `formNote` in `src/_data/contact.json` across all three languages. EN: "I usually reply…" → "I usually answer…". CA: "Et responc en poques hores 🤙" → "Normalment contest en poques hores 🤙". ES: "Te respondo en pocas horas 🤙" → "Normalmente contesto en pocas horas 🤙". Adds an explicit "usually/normalment/normalmente" hedge to soften the promise and standardizes the verb across languages (answer/contest/contesto).
+
 ## [1.20.1] - 2026-05-14
 
 ### Changed

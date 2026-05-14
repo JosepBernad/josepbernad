@@ -13,7 +13,7 @@
     "labelMessage": "Your message",
 
     "sendButton": "Send",
-    "formNote": "I usually reply within a few hours 🤙",
+    "formNote": "I usually answer within a few hours 🤙",
 
     "emailAddress": "&#104;&#105;&#64;&#106;&#111;&#115;&#101;&#112;&#98;&#101;&#114;&#110;&#97;&#100;&#46;&#99;&#111;&#109;",
     "recaptcha": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\" rel=\"noopener\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\" rel=\"noopener\">Terms of Service</a> apply.",
@@ -60,7 +60,7 @@
     "labelMessage": "Tu mensaje",
 
     "sendButton": "Enviar",
-    "formNote": "Te respondo en pocas horas 🤙",
+    "formNote": "Normalmente contesto en pocas horas 🤙",
 
     "emailAddress": "&#104;&#111;&#108;&#97;&#64;&#106;&#111;&#115;&#101;&#112;&#98;&#101;&#114;&#110;&#97;&#100;&#46;&#99;&#111;&#109;",
     "recaptcha": "Este sitio está protegido por reCAPTCHA y se aplican la <a href=\"https://policies.google.com/privacy\" target=\"_blank\" rel=\"noopener\">Política de Privacidad</a> y los <a href=\"https://policies.google.com/terms\" target=\"_blank\" rel=\"noopener\">Términos de Servicio</a> de Google.",
@@ -107,7 +107,7 @@
     "labelMessage": "El teu missatge",
 
     "sendButton": "Enviar",
-    "formNote": "Et responc en poques hores 🤙",
+    "formNote": "Normalment contest en poques hores 🤙",
 
     "emailAddress": "&#104;&#111;&#108;&#97;&#64;&#106;&#111;&#115;&#101;&#112;&#98;&#101;&#114;&#110;&#97;&#100;&#46;&#99;&#111;&#109;",
     "recaptcha": "Aquest lloc està protegit per reCAPTCHA i s'apliquen la <a href=\"https://policies.google.com/privacy\" target=\"_blank\" rel=\"noopener\">Política de Privacitat</a> i els <a href=\"https://policies.google.com/terms\" target=\"_blank\" rel=\"noopener\">Termes de Servei</a> de Google.",
