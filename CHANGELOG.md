@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.3] - 2026-05-17
+
+### Fixed
+- Default theme in `src/_includes/base.njk` no longer follows the OS's `prefers-color-scheme`. First-time visitors now always get dark mode; the toggle still persists per-user choice in `localStorage`. Previously, anyone whose phone/OS was set to light mode (the default on most devices) saw the site light on first visit, which contradicted the intended dark-first default.
+
 ## [1.20.2] - 2026-05-14
 
 ### Changed

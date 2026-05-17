@@ -81,7 +81,7 @@
     (function () {
       try {
         var saved = localStorage.getItem('theme-preference');
-        var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        var theme = saved || 'dark';
         document.documentElement.setAttribute('data-theme', theme);
       } catch (_) {
         document.documentElement.setAttribute('data-theme', 'dark');
