@@ -73,19 +73,26 @@ eleventyComputed:
   <div class="home-films-grid">
     {% for film in films.items %}
     {% if loop.index0 == 0 or loop.index0 == 1 or loop.index0 == 4 %}
-    <article class="home-film-card{% if film.tags[0] == 'Live Set' %} film-card--live{% endif %}" data-video-id="{{ film.videoId }}" data-title="{{ film.title }}" data-tags='{{ film.tags | dump | safe }}' data-location="{{ film.location }}" data-date="{{ film.date }}">
+    <article class="film-card{% if film.tags[0] == 'Live Set' %} film-card--live{% endif %}" data-video-id="{{ film.videoId }}" data-title="{{ film.title }}" data-tags='{{ film.tags | dump | safe }}' data-location="{{ film.location }}" data-date="{{ film.date }}">
       <div class="film-thumbnail">
         <img src="https://img.youtube.com/vi/{{ film.videoId }}/hqdefault.jpg" alt="{{ film.title }}, Josep Bernad {{ film.tags[0] }} in {{ film.location }}" loading="lazy" width="480" height="360">
-        <div class="film-play">
+        <span class="film-play" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
             <path d="M8 5v14l11-7z"/>
           </svg>
-        </div>
+        </span>
       </div>
       <div class="film-info">
+        <p class="film-meta">
+          <span class="film-date" data-year="{{ film.date.split('-')[0] }}" data-month="{{ film.date.split('-')[1] }}"></span>
+          <span class="film-meta-sep" aria-hidden="true">·</span>
+          <span class="film-location">{{ film.location }}</span>
+        </p>
         <h2 class="film-title">{{ film.title }}</h2>
         <div class="film-tags">
-          <span class="film-tag">{% if loop.index0 == 0 %}DJ Set{% elif loop.index0 == 1 %}Live Set{% elif loop.index0 == 4 %}Party Set{% endif %}</span>
+          {% for tag in film.tags %}
+          <span class="film-tag">{{ tag }}</span>
+          {% endfor %}
         </div>
       </div>
     </article>
