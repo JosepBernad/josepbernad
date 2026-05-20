@@ -1071,6 +1071,19 @@ html:not([data-section]) body::before {
   transition: opacity 0.2s ease;
 }
 
+/* On the home page the logo is a <button> instead of an <a> (it would link to
+   the current page) and doubles as the dev-mode easter-egg trigger. */
+.header-name-button {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .header-name-link:hover {
   opacity: 0.75;
 }
@@ -3046,6 +3059,64 @@ html:has(.error-page) body::after {
   opacity: 0;
 }
 
+/* Custom poster overlay: sits above the YouTube iframe so we don't inherit
+   YouTube's low-res default thumbnail. */
+.video-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 14;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+.video-poster[hidden] {
+  display: none;
+}
+.video-poster.is-hiding {
+  opacity: 0;
+  pointer-events: none;
+}
+.video-poster-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.video-poster-play {
+  position: relative;
+  z-index: 1;
+  width: 84px;
+  height: 84px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.62);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.video-poster:hover .video-poster-play {
+  background: rgba(0, 0, 0, 0.78);
+  transform: scale(1.06);
+}
+.video-poster-play svg {
+  width: 38px;
+  height: 38px;
+  margin-left: 4px;
+}
+
 /* Hide Vidstack loading spinner while splash is visible */
 .video-modal-content:has(.video-splash:not(.fade-out)) .vds-buffering-indicator {
   display: none !important;
@@ -3144,6 +3215,8 @@ html:has(.error-page) body::after {
   .video-modal-close {
     top: -44px;
     right: 0;
+  }
+  .video-modal.active .video-modal-close {
     opacity: 1;
     pointer-events: auto;
   }
@@ -3198,62 +3271,114 @@ html:has(.error-page) body::after {
 }
 
 /* ============================================================================
-   LIVE hero pill, home page, sits above Films button
+   Next-show calendar card, home page, sits above Films button
    ============================================================================ */
-.live-pill {
+.next-show {
   display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  text-decoration: none;
-  padding: 0.55rem 1.2rem;
-  border-radius: 999px;
-  margin-bottom: 2rem;
-  backdrop-filter: blur(15px);
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  cursor: pointer;
+  align-items: stretch;
+  gap: 0.95rem;
+  padding: 0.6rem 1.1rem 0.6rem 0.85rem;
+  border-radius: 10px;
   border: 1px solid;
-  background: transparent;
+  backdrop-filter: blur(15px);
+  text-decoration: none;
+  margin-bottom: 2rem;
   font-family: inherit;
+  max-width: min(420px, 92vw);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.live-pill:hover {
-  transform: var(--hover-scale-sm);
+.next-show:hover {
+  transform: var(--hover-lift);
 }
 
-[data-theme="light"] .live-pill {
+[data-theme="light"] .next-show {
   color: #1a1a1a;
-  background: rgba(0, 0, 0, 0.06);
-  border-color: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.18);
 }
 
-[data-theme="dark"] .live-pill {
+[data-theme="light"] .next-show:hover {
+  box-shadow: var(--hover-shadow-light);
+}
+
+[data-theme="dark"] .next-show {
   color: #f5f5f5;
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-.live-pill .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: currentColor;
-  position: relative;
+[data-theme="dark"] .next-show:hover {
+  box-shadow: var(--hover-shadow-dark);
+}
+
+.next-show-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding-right: 0.95rem;
+  border-right: 1px solid;
   flex-shrink: 0;
-  animation: beat 0.47619s ease-in-out infinite;
-  opacity: 0.85;
+  min-width: 2.7rem;
 }
 
-@keyframes beat {
-  0%, 100% { opacity: 0.55; }
-  12% { opacity: 1; }
-}
+[data-theme="light"] .next-show-date { border-color: rgba(0, 0, 0, 0.15); }
+[data-theme="dark"] .next-show-date { border-color: rgba(255, 255, 255, 0.18); }
 
-.live-pill .next {
-  opacity: 0.7;
+.next-show-date .day {
+  font-family: 'Sedan', serif;
+  font-size: 1.85rem;
   font-weight: 400;
+  letter-spacing: 0.01em;
+  -webkit-text-stroke: 0.4px currentColor;
+  text-stroke: 0.4px currentColor;
+  font-variant-numeric: tabular-nums;
+}
+
+.next-show-date .month {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  margin-top: 0.3rem;
+  opacity: 0.72;
+}
+
+.next-show-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.2rem;
+  min-width: 0;
+  text-align: left;
+}
+
+.next-show-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 26ch;
+}
+
+.next-show-venue {
+  font-size: 0.7rem;
+  opacity: 0.78;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 28ch;
+}
+
+.next-show-time {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  opacity: 0.6;
 }
 
 /* ============================================================================
@@ -3328,6 +3453,75 @@ html:has(.error-page) body::after {
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
+  position: relative;
+  scroll-margin-top: 6rem;
+}
+
+/* Highlight pulse when a card is targeted via #event-... hash */
+.live-card.is-highlighted {
+  animation: live-card-highlight 2s ease-out;
+}
+
+[data-theme="light"] .live-card.is-highlighted {
+  --live-highlight: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] .live-card.is-highlighted {
+  --live-highlight: rgba(255, 255, 255, 0.18);
+}
+
+@keyframes live-card-highlight {
+  0%   { box-shadow: 0 0 0 0 transparent; }
+  20%  { box-shadow: 0 0 0 6px var(--live-highlight); }
+  55%  { box-shadow: 0 0 0 6px var(--live-highlight); }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* Dev-only share-event button on each live card */
+.event-share {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  opacity: 0.55;
+  transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
+  padding: 0;
+  z-index: 2;
+  font-family: inherit;
+}
+
+.event-share:hover {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+.event-share svg {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+.event-share[data-copied="true"] {
+  opacity: 1;
+  color: #2da44e;
+}
+
+[data-theme="light"] .event-share {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .event-share {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 .live-card:hover {
@@ -3441,6 +3635,44 @@ html:has(.error-page) body::after {
 }
 
 .live-desc a:hover { opacity: 0.65; }
+
+.live-lineup {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  max-width: 42ch;
+}
+
+.live-lineup-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.live-lineup-time {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.55;
+  min-width: 3.25rem;
+}
+
+.live-lineup-name {
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+a.live-lineup-name {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+a.live-lineup-name:hover { opacity: 0.65; }
 
 .live-meta {
   display: flex;
@@ -5018,6 +5250,45 @@ html:has(.error-page) body::after {
   opacity: 0.6;
 }
 
+/* Deep-link emphasis: pulse the targeted variant so the promoter can't miss it. */
+@keyframes pk-target-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 90, 31, 0.55); }
+  70%  { box-shadow: 0 0 0 14px rgba(255, 90, 31, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 90, 31, 0); }
+}
+
+.pk-logo-format.is-targeted,
+.pk-rider-block.is-targeted {
+  position: relative;
+  outline: 2px solid rgba(255, 90, 31, 0.85);
+  outline-offset: 2px;
+  animation: pk-target-pulse 1.8s ease-out 0.4s 2;
+}
+
+.pk-rider-block.is-dimmed {
+  opacity: 0.55;
+  filter: saturate(0.7);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.pk-rider-block.is-dimmed:hover {
+  opacity: 1;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pk-logo-format.is-targeted,
+  .pk-rider-block.is-targeted {
+    animation: none;
+  }
+}
+
+/* Account for sticky header when scrolling to a deep-linked section. */
+.pk-section[id] {
+  scroll-margin-top: 96px;
+}
+
+
 /* weddings & corporate */
 .pk-weddings-intro {
   font-size: 0.95rem;
@@ -5565,3 +5836,95 @@ html:has(.error-page) body::after {
     color: #13191a;
   }
 }
+
+/* Language selector landing at `/`. Minimal full-bleed page, no header/footer. */
+body.lang-landing {
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  min-height: 100svh;
+}
+.lang-landing__main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  text-align: center;
+  width: 100%;
+  max-width: 32rem;
+}
+.lang-landing__brand {
+  display: block;
+  width: clamp(20rem, 85vw, 32rem);
+  height: auto;
+  margin: 0 auto;
+}
+.lang-landing__list {
+  max-width: 22rem;
+}
+[data-theme="dark"] .lang-landing__brand--light,
+[data-theme="light"] .lang-landing__brand--dark {
+  display: none;
+}
+.lang-landing__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+.lang-landing__button {
+  display: block;
+  width: 100%;
+  padding: 0.9rem 1.25rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-align: center;
+  color: var(--header-fg);
+  background: var(--header-control-bg);
+  border: 1px solid var(--header-control-bg-strong);
+  border-radius: 0.5rem;
+  opacity: 0.85;
+  transition: background 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+.lang-landing__button:hover,
+.lang-landing__button:focus-visible {
+  background: var(--header-control-bg-hover);
+  opacity: 1;
+  transform: var(--hover-lift);
+  outline: none;
+}
+
+/* Dev-only chip to wipe localStorage. Inline JS reveals it on localhost. */
+.dev-reset {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--header-fg);
+  background: var(--header-control-bg-strong);
+  border: 1px solid var(--header-control-bg-strong);
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+.dev-reset:hover,
+.dev-reset:focus-visible {
+  opacity: 1;
+  background: var(--header-control-bg-hover);
+  outline: none;
+}
+

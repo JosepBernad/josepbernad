@@ -30,7 +30,7 @@ eleventyComputed:
 
 <div class="section-container presskit-container">
   <!-- 01 Bio -->
-  <section class="pk-section">
+  <section class="pk-section" id="bio">
     <div class="pk-section-head">
       <span class="pk-section-num">01</span>
       <h2 class="pk-section-title">{{ s.bioTitle }}</h2>
@@ -57,7 +57,7 @@ eleventyComputed:
   </section>
 
   <!-- 02 Set formats -->
-  <section class="pk-section">
+  <section class="pk-section" id="formats">
     <div class="pk-section-head">
       <span class="pk-section-num">02</span>
       <h2 class="pk-section-title">{{ s.formatsTitle }}</h2>
@@ -74,7 +74,7 @@ eleventyComputed:
   </section>
 
   <!-- 03 Logo files -->
-  <section class="pk-section">
+  <section class="pk-section" id="logos">
     <div class="pk-section-head">
       <span class="pk-section-num">03</span>
       <h2 class="pk-section-title">{{ s.logosTitle }}</h2>
@@ -149,7 +149,7 @@ eleventyComputed:
   </section>
 
   <!-- 04 Technical rider -->
-  <section class="pk-section">
+  <section class="pk-section" id="rider">
     <div class="pk-section-head">
       <span class="pk-section-num">04</span>
       <h2 class="pk-section-title">{{ s.riderTitle }}</h2>
@@ -159,7 +159,7 @@ eleventyComputed:
       </a>
     </div>
     <div class="pk-rider-wrap">
-      <div class="pk-rider-block">
+      <div class="pk-rider-block" data-rider="dj">
         <div class="pk-rider-head">
           <h3 class="pk-rider-name">{{ rider.djName }}</h3>
           <span class="pk-rider-badge">{{ rider.djBadge }}</span>
@@ -186,7 +186,7 @@ eleventyComputed:
           </a>
         </div>
       </div>
-      <div class="pk-rider-block">
+      <div class="pk-rider-block" data-rider="live">
         <div class="pk-rider-head">
           <h3 class="pk-rider-name">{{ rider.liveName }}</h3>
           <span class="pk-rider-badge">{{ rider.liveBadge }}</span>
@@ -225,7 +225,7 @@ eleventyComputed:
   </section>
 
   <!-- 05 Weddings & corporate events -->
-  <section class="pk-section">
+  <section class="pk-section" id="weddings">
     <div class="pk-section-head">
       <span class="pk-section-num">05</span>
       <h2 class="pk-section-title">{{ s.weddingsTitle }}</h2>
@@ -265,7 +265,7 @@ eleventyComputed:
   </section>
 
   <!-- 06 Booking & contact -->
-  <section class="pk-section">
+  <section class="pk-section" id="contact">
     <div class="pk-section-head">
       <span class="pk-section-num">06</span>
       <h2 class="pk-section-title">{{ s.contactTitle }}</h2>
@@ -307,15 +307,8 @@ eleventyComputed:
 </div>
 
 <script>
-// Reveal localhost-only affordances (e.g. dev logo chips, /dev/rider/ link).
-(function() {
-  const isLocalhost = ['localhost', '127.0.0.1', '0.0.0.0', '::1'].includes(location.hostname)
-    || location.hostname.endsWith('.local');
-  if (!isLocalhost) return;
-  document.querySelectorAll('[data-dev][hidden]').forEach(function(el) {
-    el.removeAttribute('hidden');
-  });
-})();
+// Localhost-only `[data-dev][hidden]` reveal is handled centrally by
+// _includes/dev-affordances.njk (also sets html[data-dev=true]).
 
 (function() {
   const toggle = document.getElementById('bio-toggle');
@@ -414,14 +407,6 @@ eleventyComputed:
   const guidanceEl = document.getElementById('pk-logo-guidance');
   const formats = studio.querySelectorAll('.pk-logo-format');
   if (!stageImg || !colorToggle || !chipScroll || !formats.length) return;
-
-  const isLocalhost = ['localhost', '127.0.0.1', '0.0.0.0', '::1'].includes(location.hostname)
-    || location.hostname.endsWith('.local');
-  if (isLocalhost) {
-    chipScroll.querySelectorAll('[data-dev]').forEach(function(el) {
-      el.removeAttribute('hidden');
-    });
-  }
 
   const ASSET_PREFIX = '/press-kit/josep-bernad-';
 
@@ -580,5 +565,97 @@ eleventyComputed:
       track.style.transform = 'translateX(' + (-idx * 100) + '%)';
     }
   });
+})();
+
+// Mirror every control click into the URL so the address bar always reflects
+// the current state. Copy the URL from the address bar and send to a promoter.
+(function() {
+  const DEFAULTS = { bio: 'short', color: 'black', logo: 'wordmark' };
+  function setParam(key, value) {
+    const url = new URL(location.href);
+    if (DEFAULTS[key] === value) url.searchParams.delete(key);
+    else url.searchParams.set(key, value);
+    history.replaceState(null, '', url.toString());
+  }
+  document.addEventListener('click', function(e) {
+    const bio = e.target.closest('#bio-toggle button[data-len]');
+    if (bio) setParam('bio', bio.dataset.len);
+    const color = e.target.closest('#pk-logo-color button[data-color]');
+    if (color) setParam('color', color.dataset.color);
+    const chip = e.target.closest('#pk-logo-lockups .pk-logo-chip');
+    if (chip) setParam('logo', chip.dataset.asset);
+    const fmt = e.target.closest('.pk-logo-format');
+    if (fmt) setParam('format', fmt.dataset.format || 'all');
+    const rider = e.target.closest('.pk-rider-block[data-rider] .pk-rider-download');
+    if (rider) setParam('rider', rider.closest('.pk-rider-block').dataset.rider);
+  }, true);
+})();
+
+// Deep-link via URL params so promoters land on the exact variant we want.
+// Supports: ?logo=<id>&color=black|white&format=svg|png|all&rider=dj|live&bio=short|long
+(function() {
+  const params = new URLSearchParams(location.search);
+  if (![...params.keys()].length) return;
+
+  const targeted = [];
+
+  const bio = params.get('bio');
+  if (bio === 'short' || bio === 'long') {
+    const btn = document.querySelector('#bio-toggle button[data-len="' + bio + '"]');
+    if (btn && !btn.classList.contains('active')) btn.click();
+  }
+
+  const logo = params.get('logo');
+  if (logo) {
+    const chip = document.querySelector('#pk-logo-lockups .pk-logo-chip[data-asset="' + logo + '"]');
+    if (chip) {
+      if (chip.hasAttribute('hidden')) chip.removeAttribute('hidden');
+      if (!chip.classList.contains('active')) chip.click();
+    }
+  }
+
+  const color = params.get('color');
+  if (color === 'black' || color === 'white') {
+    const btn = document.querySelector('#pk-logo-color button[data-color="' + color + '"]');
+    if (btn && !btn.classList.contains('active')) btn.click();
+  }
+
+  const format = params.get('format');
+  if (format) {
+    let sel;
+    if (format === 'all') sel = '.pk-logo-format-all';
+    else sel = '.pk-logo-format[data-format="' + format + '"]';
+    const link = document.querySelector(sel);
+    if (link) {
+      link.classList.add('is-targeted');
+      targeted.push('logos');
+    }
+  } else if (logo || color) {
+    targeted.push('logos');
+  }
+
+  const rider = params.get('rider');
+  if (rider === 'dj' || rider === 'live') {
+    const block = document.querySelector('.pk-rider-block[data-rider="' + rider + '"]');
+    if (block) {
+      block.classList.add('is-targeted');
+      const other = document.querySelector('.pk-rider-block[data-rider="' + (rider === 'dj' ? 'live' : 'dj') + '"]');
+      if (other) other.classList.add('is-dimmed');
+      targeted.push('rider');
+    }
+  }
+
+  // Scroll to the lowest targeted section (rider > logos), respecting reduced-motion.
+  const order = ['rider', 'logos'];
+  const target = order.find(function(id) { return targeted.indexOf(id) !== -1; });
+  if (target) {
+    const el = document.getElementById(target);
+    if (el) {
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      requestAnimationFrame(function() {
+        el.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
+      });
+    }
+  }
 })();
 </script>

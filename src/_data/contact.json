@@ -38,7 +38,7 @@
       {
         "q": "Is there a press kit?",
         "a": "Yes: bio, logos, technical rider, and booking contact, all in one place.",
-        "cta": { "label": "Open press kit", "href": "/press-kit/" }
+        "cta": { "label": "Open press kit", "href": "/en/press-kit/" }
       },
       {
         "q": "What languages can I write in?",

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Video modal', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/films/');
+    await page.goto('/en/films/');
     // Wait for the page JS to finish attaching click handlers
     await page.waitForLoadState('networkidle');
   });
@@ -80,7 +80,7 @@ test.describe('Video modal, mobile', () => {
   test.use({ viewport: { width: 375, height: 812 }, hasTouch: true });
 
   test('modal opens on mobile and shows iframe', async ({ page }) => {
-    await page.goto('/films/');
+    await page.goto('/en/films/');
     await page.waitForLoadState('networkidle');
 
     await page.locator('[data-video-id]:not(.video-rec-card)').first().click();

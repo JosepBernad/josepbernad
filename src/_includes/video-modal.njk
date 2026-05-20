@@ -19,6 +19,14 @@
       <div class="video-watermark">
         <img src="/images/JosepBernad-Logo.svg" alt="">
       </div>
+      <!-- Custom poster overlay, sits above the YouTube iframe to avoid
+           YouTube's low-res default thumbnail. -->
+      <button type="button" class="video-poster" id="videoPoster" hidden aria-label="Play video">
+        <img class="video-poster-img" id="videoPosterImg" alt="" loading="eager">
+        <span class="video-poster-play" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+      </button>
       <!-- YouTube-style play/pause visual feedback overlay -->
       <div class="play-pause-feedback" id="playPauseFeedback">
         <svg class="feedback-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -110,6 +118,14 @@
       setTimeout(() => splash.classList.add('fade-out'), remaining);
     });
 
+    player.addEventListener('play', () => {
+      const poster = document.getElementById('videoPoster');
+      if (poster && !poster.hidden) {
+        poster.classList.add('is-hiding');
+        setTimeout(() => { poster.hidden = true; }, 320);
+      }
+    });
+
     // Save progress to sessionStorage every 2 seconds
     player.addEventListener('time-update', () => {
       if (currentVideoId && player.currentTime > 0) {
@@ -137,7 +153,17 @@
     }
   });
 
-  window.openVideo = function(videoId, title, tags, location, date) {
+  window.openVideo = function(videoId, title, tags, location, date, opts) {
+    const deepLink = !!(opts && opts.deepLink);
+
+    // Reflect the open video in the URL first thing so the address bar is
+    // always up to date even if something further down throws.
+    try {
+      const u = new URL(window.location.href);
+      u.searchParams.set('v', videoId);
+      window.history.replaceState(null, '', u.toString());
+    } catch (_) {}
+
     // Lazy-load Vidstack on first open (desktop only).
     loadVidstack();
 
@@ -153,7 +179,10 @@
     document.body.style.overflow = 'hidden';
 
     const splash = document.getElementById('videoSplash');
-    if (isMobile) {
+    // Deep-link opens have no user-gesture context, so the splash 'started'
+    // hook may never fire (autoplay is policy-blocked unless muted). Skip the
+    // splash entirely for that flow.
+    if (isMobile || deepLink) {
       splash.classList.add('fade-out');
     } else {
       splash.classList.remove('fade-out');
@@ -180,6 +209,20 @@
       card.classList.toggle('active', card.dataset.videoId === videoId);
     });
 
+    // Custom poster overlay: bypasses YouTube's low-res default thumbnail.
+    const poster = document.getElementById('videoPoster');
+    const posterImg = document.getElementById('videoPosterImg');
+    if (poster && posterImg) {
+      const hq = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      const maxres = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+      posterImg.src = hq;
+      const probe = new Image();
+      probe.onload = () => { if (probe.naturalWidth > 120) posterImg.src = maxres; };
+      probe.src = maxres;
+      poster.hidden = false;
+      poster.classList.remove('is-hiding');
+    }
+
     currentVideoId = videoId;
     const savedTime = sessionStorage.getItem(`video-progress-${videoId}`);
 
@@ -204,7 +247,9 @@
           if (savedTime && Number(savedTime) > 0) {
             player.currentTime = Number(savedTime);
           }
-          player.play();
+          // Deep-link opens skip autoplay so the visitor presses play and gets
+          // sound, instead of a muted unsolicited playback.
+          if (!deepLink) player.play();
           player.removeEventListener('can-play', onCanPlay);
         };
         player.addEventListener('can-play', onCanPlay);
@@ -219,6 +264,15 @@
     modal.classList.remove('active');
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
+    const posterEl = document.getElementById('videoPoster');
+    if (posterEl) { posterEl.hidden = true; posterEl.classList.remove('is-hiding'); }
+    try {
+      const url = new URL(location.href);
+      if (url.searchParams.has('v')) {
+        url.searchParams.delete('v');
+        history.replaceState(null, '', url.toString());
+      }
+    } catch (_) {}
     if (isMobile) {
       const iframe = document.getElementById('videoMobileIframe');
       clearSrcTimeout = setTimeout(() => {
@@ -237,6 +291,25 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') window.closeModal();
   });
+
+  // Click on the custom poster: hide it and start playback. The click itself
+  // is the user gesture, so play() is allowed (no muting needed).
+  (function() {
+    const poster = document.getElementById('videoPoster');
+    if (!poster) return;
+    poster.addEventListener('click', () => {
+      poster.classList.add('is-hiding');
+      setTimeout(() => { poster.hidden = true; }, 320);
+      if (isMobile) {
+        const iframe = document.getElementById('videoMobileIframe');
+        if (iframe && iframe.src && !/[?&]autoplay=1/.test(iframe.src)) {
+          iframe.src = iframe.src + (iframe.src.includes('?') ? '&' : '?') + 'autoplay=1';
+        }
+      } else if (player) {
+        player.play();
+      }
+    });
+  })();
 
   // Attach click handlers to page cards (not rec cards inside the modal)
   document.querySelectorAll('[data-video-id]:not(.video-rec-card)').forEach(card => {
@@ -263,4 +336,24 @@
       );
     });
   });
+
+  // Deep-link via ?v=<videoId> so promoters land directly on the chosen player.
+  // Matches the first non-rec card with that videoId (avoids opening twice from the rec rail).
+  (function() {
+    const params = new URLSearchParams(location.search);
+    const videoId = params.get('v');
+    if (!videoId) return;
+    const card = document.querySelector('[data-video-id="' + videoId + '"]:not(.video-rec-card)');
+    if (!card) return;
+    requestAnimationFrame(() => {
+      window.openVideo(
+        card.dataset.videoId,
+        card.dataset.title,
+        JSON.parse(card.dataset.tags || '[]'),
+        card.dataset.location,
+        card.dataset.date,
+        { deepLink: true }
+      );
+    });
+  })();
 </script>

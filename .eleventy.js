@@ -45,8 +45,6 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/favicon-dark.svg");
   eleventyConfig.addPassthroughCopy("src/favicon.ico");
   eleventyConfig.addPassthroughCopy("src/apple-touch-icon.png");
-  eleventyConfig.addPassthroughCopy({ "CNAME": "CNAME" });
-  eleventyConfig.addPassthroughCopy({ ".nojekyll": ".nojekyll" });
   eleventyConfig.addPassthroughCopy({ "src/_data/about.json": "data/about.json" });
   eleventyConfig.addPassthroughCopy({ "src/_data/home.json": "data/home.json" });
   eleventyConfig.addPassthroughCopy({ "src/_data/films.json": "data/films.json" });
@@ -93,17 +91,26 @@ module.exports = function(eleventyConfig) {
       .filter(ev => !ev.hidden)
       .sort((a, b) => new Date(b.date) - new Date(a.date));
   });
+  // Same as pastDesc, but only keeps events with a video or SoundCloud track
+  eleventyConfig.addFilter("pastWithMediaDesc", (events) => {
+    if (!Array.isArray(events)) return [];
+    return events
+      .filter(ev => !ev.hidden && (ev.videoId || ev.soundcloudUrl))
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+  });
 
   // Add global data for language prefix based on URL
   eleventyConfig.addGlobalData("eleventyComputed", {
     urlLangPrefix: (data) => {
       const url = data.page?.url || '';
+      if (url.startsWith('/en/') || url === '/en') return '/en';
       if (url.startsWith('/es/') || url === '/es') return '/es';
       if (url.startsWith('/ca/') || url === '/ca') return '/ca';
       return '';
     },
     urlLang: (data) => {
       const url = data.page?.url || '';
+      if (url.startsWith('/en/') || url === '/en') return 'en';
       if (url.startsWith('/es/') || url === '/es') return 'es';
       if (url.startsWith('/ca/') || url === '/ca') return 'ca';
       return 'en';

@@ -1,0 +1,83 @@
+---
+permalink: /
+eleventyExcludeFromCollections: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Josep Bernad</title>
+  <meta name="description" content="Josep Bernad, musician and DJ. Choose your language.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://josepbernad.com/">
+  <link rel="alternate" hreflang="en" href="https://josepbernad.com/en/" />
+  <link rel="alternate" hreflang="es" href="https://josepbernad.com/es/" />
+  <link rel="alternate" hreflang="ca" href="https://josepbernad.com/ca/" />
+  <link rel="alternate" hreflang="x-default" href="https://josepbernad.com/en/" />
+
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon-light.svg" type="image/svg+xml" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <link rel="preload" as="image" href="/images/bg-dark-mobile.webp" media="(max-width: 767px)">
+  <link rel="preload" as="image" href="/images/bg-dark-desktop.webp" media="(min-width: 768px)">
+  <link rel="preload" as="font" type="font/woff2" href="/css/fonts/sedan-regular-latin.woff2" crossorigin>
+
+  <link rel="stylesheet" href="/css/styles.css">
+
+  <script>
+    // Theme bootstrap, identical to base.njk so there is no flash.
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme-preference');
+        document.documentElement.setAttribute('data-theme', saved || 'dark');
+      } catch (_) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+    // Returning visitors skip the modal. We honour `?next=` (set by the
+    // vercel.json redirects from old English paths like /films/) so that
+    // hitting an old URL deep-links to the same section in their saved
+    // language. `next` is validated against a whitelist to avoid an open
+    // redirect.
+    (function () {
+      var ALLOWED = ['/films/', '/about/', '/live/', '/contact/', '/press-kit/'];
+      var raw = new URLSearchParams(location.search).get('next') || '';
+      var next = ALLOWED.indexOf(raw) !== -1 ? raw : '/';
+      try {
+        var lang = localStorage.getItem('lang-preference');
+        if (lang === 'en' || lang === 'es' || lang === 'ca') {
+          location.replace('/' + lang + next);
+        }
+      } catch (_) {}
+    })();
+  </script>
+</head>
+<body class="lang-landing" data-nosnippet>
+  <main class="lang-landing__main">
+    <img class="lang-landing__brand lang-landing__brand--dark" src="/press-kit/josep-bernad-wordmark-dj-live-white.svg" alt="Josep Bernad, Live & DJ Set" width="1845" height="419">
+    <img class="lang-landing__brand lang-landing__brand--light" src="/press-kit/josep-bernad-wordmark-dj-live-black.svg" alt="" aria-hidden="true" width="1845" height="419">
+    <ul class="lang-landing__list">
+      <li><a class="lang-landing__button" href="/en/" data-lang="en" hreflang="en">English</a></li>
+      <li><a class="lang-landing__button" href="/ca/" data-lang="ca" hreflang="ca">Català</a></li>
+      <li><a class="lang-landing__button" href="/es/" data-lang="es" hreflang="es">Español</a></li>
+    </ul>
+  </main>
+  <script>
+    (function () {
+      var ALLOWED = ['/films/', '/about/', '/live/', '/contact/', '/press-kit/'];
+      var raw = new URLSearchParams(location.search).get('next') || '';
+      var next = ALLOWED.indexOf(raw) !== -1 ? raw : '/';
+      document.querySelectorAll('.lang-landing__button').forEach(function (btn) {
+        btn.href = '/' + btn.dataset.lang + next;
+        btn.addEventListener('click', function () {
+          try { localStorage.setItem('lang-preference', btn.dataset.lang); } catch (_) {}
+        });
+      });
+    })();
+  </script>
+
+  {% include "dev-affordances.njk" %}
+</body>
+</html>

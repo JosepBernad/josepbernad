@@ -1,10 +1,11 @@
 {
   "name": "josepbernad",
-  "version": "1.20.3",
+  "version": "1.22.0",
   "description": "Josep Bernad - Live & DJ Set",
   "private": true,
   "scripts": {
-    "dev": "npm run build:presskit && eleventy --serve",
+    "dev": "npm run build:presskit && eleventy --serve --port=${PORT:-8080}",
+    "dev:vercel": "vercel dev",
     "build": "npm run build:presskit && eleventy",
     "build:favicons": "node scripts/generate-favicons.js",
     "build:rider": "node scripts/build-rider.js",

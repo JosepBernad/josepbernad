@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   {# Language-prefix-stripped path, used by hreflang links below and by the language switcher in the header. #}
-  {% set pagePath = page.url | replace('/es/', '/') | replace('/ca/', '/') %}
-  {% if pagePath == '/es' or pagePath == '/ca' %}{% set pagePath = '/' %}{% endif %}
+  {% set pagePath = page.url | replace('/en/', '/') | replace('/es/', '/') | replace('/ca/', '/') %}
+  {% if pagePath == '/en' or pagePath == '/es' or pagePath == '/ca' %}{% set pagePath = '/' %}{% endif %}
 
   {# Get SEO data for current page and language #}
   {% set currentLang = urlLang | default('en') %}
@@ -46,10 +46,10 @@
   <link rel="canonical" href="https://josepbernad.com{{ page.url }}">
 
   <!-- Hreflang Tags for Multilingual SEO -->
-  <link rel="alternate" hreflang="en" href="https://josepbernad.com{{ pagePath }}" />
+  <link rel="alternate" hreflang="en" href="https://josepbernad.com/en{{ pagePath }}" />
   <link rel="alternate" hreflang="es" href="https://josepbernad.com/es{{ pagePath }}" />
   <link rel="alternate" hreflang="ca" href="https://josepbernad.com/ca{{ pagePath }}" />
-  <link rel="alternate" hreflang="x-default" href="https://josepbernad.com{{ pagePath }}" />
+  <link rel="alternate" hreflang="x-default" href="https://josepbernad.com/en{{ pagePath }}" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="{{ ogType }}">
@@ -150,7 +150,7 @@
           "@type": "Person",
           "name": "Josep Bernad",
           "jobTitle": "Musician, DJ",
-          "url": "https://josepbernad.com/about/"
+          "url": "https://josepbernad.com/en/about/"
         }
       },
       {
@@ -162,19 +162,19 @@
             "@type": "WebPage",
             "name": "Films",
             "description": "Watch live sets and DJ performances by Josep Bernad",
-            "url": "https://josepbernad.com/films/"
+            "url": "https://josepbernad.com/en/films/"
           },
           {
             "@type": "WebPage",
             "name": "About",
             "description": "Learn about Josep Bernad, musician, DJ, and multi-instrumentalist",
-            "url": "https://josepbernad.com/about/"
+            "url": "https://josepbernad.com/en/about/"
           },
           {
             "@type": "WebPage",
             "name": "Contact",
             "description": "Get in touch with Josep Bernad for bookings and collaborations",
-            "url": "https://josepbernad.com/contact/"
+            "url": "https://josepbernad.com/en/contact/"
           }
         ]
       }
@@ -202,7 +202,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": {{ homeLabels[currentLang] | dump | safe }},
-        "item": "https://josepbernad.com{{ langPrefix }}/"
+        "item": "https://josepbernad.com{{ urlLangPrefix }}/"
       },
       {
         "@type": "ListItem",
@@ -346,6 +346,8 @@
   {% include "footer.njk" %}
 
   <script type="module" src="/js/main.js"></script>
+
+  {% include "dev-affordances.njk" %}
 
   <!-- Analytics (GoatCounter - privacy-friendly, no cookies) -->
   <script data-goatcounter="https://josepbernad.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>

@@ -1,6 +1,30 @@
 {
   "upcoming": [
     {
+      "date": "2026-05-22",
+      "event": {
+        "en": "Mainly House Music at SEN",
+        "es": "Mainly House Music en SEN",
+        "ca": "Mainly House Music a SEN"
+      },
+      "venue": {
+        "en": "SEN Chill Beach Bar, Colònia de Sant Pere",
+        "es": "SEN Chill Beach Bar, Colònia de Sant Pere",
+        "ca": "SEN Chill Beach Bar, Colònia de Sant Pere"
+      },
+      "time": "18:30",
+      "map": "https://maps.app.goo.gl/Sf3xHMDMoXsZzB1K9",
+      "description": {
+        "en": "Friday afternoon by the sea in Colònia de Sant Pere, house and warm grooves into the evening.",
+        "es": "Tarde de viernes junto al mar en la Colònia de Sant Pere, house y ritmos cálidos hasta entrada la noche.",
+        "ca": "Tarda de divendres vora la mar a la Colònia de Sant Pere, house i ritmes càlids fins entrada la nit."
+      },
+      "lineup": [
+        { "time": "17:00", "name": "Julian Mielcarek", "instagramUrl": "https://www.instagram.com/julianmielcarekofficial/" },
+        { "time": "18:30", "name": "Josep Bernad", "instagramUrl": "https://www.instagram.com/djosepbernad/" }
+      ]
+    },
+    {
       "date": "2026-05-24",
       "event": {
         "en": "Mainly House Music at Kaafu",
@@ -12,13 +36,17 @@
         "es": "Kaafu Beach Club, Cala Millor",
         "ca": "Kaafu Beach Club, Cala Millor"
       },
-      "time": "19h",
+      "time": "18h",
       "map": "https://maps.google.com/?q=Kaafu+Beach+Club",
       "description": {
         "en": "An early summer session at Kaafu, deep house and warm grooves as the season kicks off.",
         "es": "Una sesión de principios de verano en Kaafu, deep house y ritmos cálidos al arrancar la temporada.",
         "ca": "Una sessió de principis d'estiu a Kaafu, deep house i ritmes càlids en l'inici de temporada."
-      }
+      },
+      "lineup": [
+        { "time": "18:00 - 20:00", "name": "Josep Bernad", "instagramUrl": "https://www.instagram.com/djosepbernad/" },
+        { "time": "20:00 - 22:00", "name": "Julian Mielcarek", "instagramUrl": "https://www.instagram.com/julianmielcarekofficial/" }
+      ]
     },
     {
       "date": "2026-06-06",
@@ -34,6 +62,25 @@
         "en": "A midday vermouth-hour DJ set at Sa Roda, sunny open-air grooves to ease into Saturday.",
         "es": "Un DJ set a la hora del vermut en Sa Roda, ritmos al aire libre para empezar el sábado con calma.",
         "ca": "Un DJ set a l'hora del vermut a Sa Roda, ritmes a l'aire lliure per començar el dissabte amb calma."
+      }
+    },
+    {
+      "date": "2026-06-06",
+      "event": {
+        "en": "Cap Vermell Padel Tournament",
+        "es": "Torneo de Pádel de Cap Vermell",
+        "ca": "Torneig de Pàdel de Cap Vermell"
+      },
+      "venue": {
+        "en": "Cap Vermell, Capdepera",
+        "es": "Cap Vermell, Capdepera",
+        "ca": "Cap Vermell, Capdepera"
+      },
+      "time": "22h",
+      "description": {
+        "en": "DJ set to close the Cap Vermell padel tournament, house and afro house from 22:00 into the small hours.",
+        "es": "DJ set para cerrar el torneo de pádel de Cap Vermell, house y afro house desde las 22:00 hasta la madrugada.",
+        "ca": "DJ set per tancar el torneig de pàdel de Cap Vermell, house i afro house des de les 22:00 fins a la matinada."
       }
     },
     {
@@ -94,6 +141,72 @@
     }
   ],
   "past": [
+    {
+      "date": "2026-05-16",
+      "event": {
+        "en": "Mainly House Music at Kyrat",
+        "es": "Mainly House Music en Kyrat",
+        "ca": "Mainly House Music al Kyrat"
+      },
+      "venue": {
+        "en": "Kyrat Amàrac Rooftop, Cala Millor",
+        "es": "Kyrat Amàrac Rooftop, Cala Millor",
+        "ca": "Kyrat Amàrac Rooftop, Cala Millor"
+      },
+      "time": "19:30",
+      "map": "https://maps.app.goo.gl/tAY963QKycfHBHLY6",
+      "soundcloudUrl": "https://soundcloud.com/djosepbernad/mainly-house-music-at-kyrat-2026-05-16-josep-bernad-dj-set",
+      "tracklist": [
+        { "artist": "Hugel & SOLTO (FR)", "title": "Jamaican (Bam Bam)" },
+        { "artist": "&ME, Rampa, Adam Port, Keinemusik, chuala", "title": "Say What (Tom Enzy Remix)" },
+        { "artist": "Jamie xx", "title": "Intro (TR3NACRIA Afro House Remix)" },
+        { "artist": "Rels B", "title": "TU VAS SIN (Renzo Leon Afro House Remix)" },
+        { "artist": "YASS", "title": "Djembe" },
+        { "artist": "Parcels", "title": "Reflex (Manqo Afro House Remix)" },
+        { "artist": "LevyM", "title": "Aint Nobody" },
+        { "artist": "Íñigo Quintero", "title": "Si No Estas (HUGEL & Jamy Nox Afro House Remix)" },
+        { "artist": "Adele, Barbatuques, Soldera", "title": "Set Baianá To The Rain (Josep Bernad Mashup)" },
+        { "artist": "The Police", "title": "Every Breath You Take (Simone Vitullo & Seraphiel Afro House Remix)" },
+        { "artist": "Stromae", "title": "Papaoutai (Arthur Miro Afro House Edit)" },
+        { "artist": "Tyla", "title": "Water (Faul & Wad Afro House Remix)" },
+        { "artist": "Bad Bunny", "title": "DtMF (Karlo & Imlaylow Afro House Remix)" },
+        { "artist": "Dennis Ferrer", "title": "Hey Hey (Jack Back Afro House Remix)" },
+        { "artist": "Disclosure, Eliza Doolittle", "title": "You & Me (Rivo Afro House Remix)" },
+        { "artist": "Earth, Wind & Fire", "title": "September (Hoax Afro House Remix)" },
+        { "artist": "Mika", "title": "Relax, Take It Easy (Arthur Miro Afro House Remix)" },
+        { "artist": "Sunrize & Aiden Music & Mr Demon", "title": "Meet Me Halfway (Sunrize Afro House Remix)" },
+        { "artist": "Pink Floyd", "title": "Wish You Were Here (Liboz Afro House Remix)" },
+        { "artist": "Jesus Fernandez", "title": "La Samba" },
+        { "artist": "Mochakk, Joni", "title": "Da Fonk" },
+        { "artist": "Jaded", "title": "Welcome To The People" },
+        { "artist": "Alex Hosking, Mr. Belt & Wezol, Millean.", "title": "and it felt like.." },
+        { "artist": "Adala, FISHER", "title": "Yeah The Pluges (Ruyex Mashup)" },
+        { "artist": "Kendrick Lamar", "title": "Bitch, Don't Kill My Vibe (Liquid Rose & Trace Remix)" },
+        { "artist": "Gnarls Barkley", "title": "Crazy (Arthur Miro Afro House Remix)" },
+        { "artist": "Drake", "title": "Nokia (VEDRA Edit)" },
+        { "artist": "Luuk van Dijk", "title": "Da Revolution" },
+        { "artist": "Santana, TOBEHONEST", "title": "Evil Ways" },
+        { "artist": "Arielle Free", "title": "Feels So Good" },
+        { "artist": "HUGEL, Westend, Cumbiafrica", "title": "Aguila" },
+        { "artist": "Maneskin", "title": "Beggin’ (EwellicK & JODLEX Remix)" },
+        { "artist": "Ca7triel & Paco Amoroso", "title": "EL UNICO (Laureano Remix)" },
+        { "artist": "Sting", "title": "Englishman In New York (Amedeo Picone Remix)" },
+        { "artist": "Tom Misch, De La Soul", "title": "South Of The River (Detroit Swindle Remix)" },
+        { "artist": "Tom Tyger, Nico de Andrea", "title": "Coco Bongo" },
+        { "artist": "Wii", "title": "Mii Channel (Trickpony Remix)" },
+        { "artist": "Juan Luis Guerra", "title": "La Travesía (HARG! Remix)" },
+        { "artist": "Sergio Mendes", "title": "Magdalenha (FLAKO STIK Remix)" },
+        { "artist": "Parcels", "title": "Overnight (Dubdogz & Ghostt Remix)" },
+        { "artist": "BLOND:ISH, Amadou & Mariam, Francis Mercier", "title": "Sete" },
+        { "artist": "Julian The Angel", "title": "Sambapiano" },
+        { "artist": "Juan Magan, Marcos Rodriguez", "title": "Bora Bora (Kalma Remix)" },
+        { "artist": "Paul Johnson", "title": "Get Get Down" },
+        { "artist": "Whitney Houston", "title": "It's Not Right But It's Ok (Mr. Belt & Wezol Remix)" },
+        { "artist": "Disclosure, Anderson .Paak", "title": "NO CAP" },
+        { "artist": "Jason Mraz", "title": "I'm Yours" },
+        { "artist": "The Beatles", "title": "Hey Jude (Remastered 2015)" }
+      ]
+    },
     {
       "date": "2026-05-08",
       "event": {

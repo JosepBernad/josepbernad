@@ -3,7 +3,7 @@ pagination:
   data: languages.list
   size: 1
   alias: lang
-permalink: "{{ lang.prefix }}/{% if lang.prefix %}/{% endif %}"
+permalink: "{{ lang.prefix }}/"
 layout: base.njk
 pageId: home
 eleventyComputed:
@@ -23,10 +23,18 @@ eleventyComputed:
 
   {% set nextShow = live.upcoming | upcomingOnly | first %}
   {% if nextShow %}
-  <a class="live-pill" href="{{ currentPrefix }}/live/">
-    <span class="dot"></span>
-    <span data-i18n="nextShow.label">{{ home[currentLang].nextShow.label }}</span>
-    <span class="next">· <span data-i18n="nextShow.next">{{ home[currentLang].nextShow.next }}</span> {{ nextShow.date | liveDateShort(currentLang) }}</span>
+  {% set eventName = nextShow.event[currentLang] if nextShow.event[currentLang] else nextShow.event %}
+  {% set venueName = nextShow.venue[currentLang] if nextShow.venue[currentLang] else nextShow.venue %}
+  <a class="next-show" href="{{ currentPrefix }}/live/#event-{{ nextShow.date }}-0">
+    <span class="next-show-date" aria-hidden="true">
+      <span class="day">{{ nextShow.date | liveDay }}</span>
+      <span class="month">{{ nextShow.date | liveMonth(currentLang) }}</span>
+    </span>
+    <span class="next-show-info">
+      <span class="next-show-title">{{ eventName }}</span>
+      <span class="next-show-venue">{{ venueName.split(',')[0] }}</span>
+      {% if nextShow.time %}<span class="next-show-time">{{ nextShow.time }}</span>{% endif %}
+    </span>
   </a>
   {% endif %}
 

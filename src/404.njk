@@ -12,12 +12,23 @@ eleventyExcludeFromCollections: true
   (function () {
     var path = location.pathname;
     var lang = 'en';
-    var prefix = '';
+    var prefix = '/en';
     if (path.indexOf('/es/') === 0 || path === '/es') { lang = 'es'; prefix = '/es'; }
     else if (path.indexOf('/ca/') === 0 || path === '/ca') { lang = 'ca'; prefix = '/ca'; }
+    else if (path.indexOf('/en/') === 0 || path === '/en') { lang = 'en'; prefix = '/en'; }
+    else {
+      // Unknown / unprefixed path. Try saved language, otherwise fall back to English.
+      try {
+        var saved = localStorage.getItem('lang-preference');
+        if (saved === 'es' || saved === 'ca' || saved === 'en') {
+          lang = saved; prefix = '/' + saved;
+        }
+      } catch (_) {}
+    }
     document.documentElement.lang = lang;
     // Strip the language prefix so we can re-prefix per switcher link.
-    var basePath = prefix ? path.slice(prefix.length) : path;
+    var hasKnownPrefix = path.indexOf('/en') === 0 || path.indexOf('/es') === 0 || path.indexOf('/ca') === 0;
+    var basePath = hasKnownPrefix ? path.slice(3) : path;
     if (!basePath || basePath.charAt(0) !== '/') basePath = '/' + basePath;
     var search = location.search || '';
     var hash = location.hash || '';
@@ -26,7 +37,7 @@ eleventyExcludeFromCollections: true
       document.querySelectorAll('.lang-switcher .lang-link').forEach(function (a) {
         var thisLang = a.getAttribute('hreflang');
         var target;
-        if (thisLang === 'en') target = basePath;
+        if (thisLang === 'en') target = '/en' + basePath;
         else if (thisLang === 'ca') target = '/ca' + basePath;
         else if (thisLang === 'es') target = '/es' + basePath;
         else return;
@@ -35,14 +46,14 @@ eleventyExcludeFromCollections: true
       });
       // "Back to home" link on the error card.
       var back = document.querySelector('.error-link');
-      if (back) back.href = (prefix || '') + '/';
+      if (back) back.href = prefix + '/';
       // Header "Josep Bernad" link and primary nav: rewrite to the language-appropriate prefix.
       var nameLink = document.querySelector('.header-name-link');
-      if (nameLink) nameLink.href = (prefix || '') + '/';
+      if (nameLink) nameLink.href = prefix + '/';
       document.querySelectorAll('.site-nav__link').forEach(function (link) {
         var href = link.getAttribute('href') || '';
-        var stripped = href.replace(/^\/(es|ca)(?=\/|$)/, '');
-        link.href = (prefix || '') + (stripped || '/');
+        var stripped = href.replace(/^\/(en|es|ca)(?=\/|$)/, '');
+        link.href = prefix + (stripped || '/');
       });
     });
   })();
@@ -52,7 +63,7 @@ eleventyExcludeFromCollections: true
   <h1 class="error-code">404</h1>
   <p class="error-message" data-i18n="error.notFound">Page not found</p>
   <p class="error-description" data-i18n="error.notFoundDesc">The page you're looking for doesn't exist or has been moved.</p>
-  <a href="/" class="error-link" data-i18n="error.backHome">← Back to Home</a>
+  <a href="/en/" class="error-link" data-i18n="error.backHome">← Back to Home</a>
 </div>
 
 

@@ -17,8 +17,9 @@ async function clickThemeToggle(page) {
 
 test.describe('Theme toggle', () => {
   test.beforeEach(async ({ page }) => {
-    // Clear localStorage so theme starts from system preference
-    await page.goto('/');
+    // Clear localStorage so theme starts from system preference. We hit /en/
+    // (not /) because the root is now a language picker with no header/toggle.
+    await page.goto('/en/');
     await page.evaluate(() => localStorage.removeItem('theme-preference'));
     await page.reload();
   });

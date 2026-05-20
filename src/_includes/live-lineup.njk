@@ -1,0 +1,16 @@
+{% macro lineup(items) %}
+{%- if items and items.length -%}
+<ul class="live-lineup">
+  {%- for slot in items %}
+  <li class="live-lineup-row">
+    <span class="live-lineup-time">{{ slot.time }}</span>
+    {%- if slot.instagramUrl %}
+    <a class="live-lineup-name" href="{{ slot.instagramUrl }}" target="_blank" rel="noopener">{{ slot.name }}</a>
+    {%- else %}
+    <span class="live-lineup-name">{{ slot.name }}</span>
+    {%- endif %}
+  </li>
+  {%- endfor %}
+</ul>
+{%- endif -%}
+{% endmacro %}

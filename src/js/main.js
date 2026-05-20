@@ -22,7 +22,6 @@ Promise.all([
   ['en', 'es', 'ca'].forEach(lang => {
     translations[lang].subtitle = homeData[lang].subtitle;
     translations[lang].nav = homeData[lang].nav;
-    translations[lang].nextShow = homeData[lang].nextShow;
     translations[lang].error = homeData[lang].error;
     translations[lang].newsletter = homeData[lang].newsletter;
     translations[lang].months = filmsData.months[lang];
@@ -484,5 +483,53 @@ if (liveVideoModal) {
 
   document.querySelectorAll('.live-tracklist').forEach((item) => {
     enhanceDetails(item, item.querySelector('.live-tracklist-summary'), item.querySelector('.live-tracklist-body'));
+  });
+})();
+
+// Live page: scroll to + briefly highlight the event referenced by #event-...
+// Also wires the dev-only share button on each card.
+(function () {
+  if (!document.querySelector('.live-card')) return;
+
+  const HIGHLIGHT_MS = 2200;
+  let activeTimer = null;
+
+  function highlightFromHash() {
+    const hash = location.hash;
+    if (!hash || !hash.startsWith('#event-')) return;
+    const target = document.getElementById(hash.slice(1));
+    if (!target) return;
+    requestAnimationFrame(() => {
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Restart the animation if already running
+      target.classList.remove('is-highlighted');
+      void target.offsetWidth;
+      target.classList.add('is-highlighted');
+      clearTimeout(activeTimer);
+      activeTimer = setTimeout(() => {
+        target.classList.remove('is-highlighted');
+      }, HIGHLIGHT_MS);
+    });
+  }
+
+  highlightFromHash();
+  window.addEventListener('hashchange', highlightFromHash);
+
+  document.querySelectorAll('.event-share').forEach((btn) => {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const id = btn.dataset.shareId;
+      if (!id) return;
+      const url = `${location.origin}${location.pathname}#${id}`;
+      try {
+        await navigator.clipboard.writeText(url);
+      } catch (_) {
+        window.prompt('Copy share link:', url);
+        return;
+      }
+      btn.dataset.copied = 'true';
+      setTimeout(() => { delete btn.dataset.copied; }, 1400);
+    });
   });
 })();

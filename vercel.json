@@ -1,11 +1,23 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "devCommand": "npm run dev",
   "redirects": [
     {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "www.josepbernad.com" }],
       "destination": "https://josepbernad.com/:path*",
       "permanent": true
-    }
+    },
+
+    { "source": "/films",      "destination": "/?next=%2Ffilms%2F",     "permanent": true },
+    { "source": "/films/",     "destination": "/?next=%2Ffilms%2F",     "permanent": true },
+    { "source": "/about",      "destination": "/?next=%2Fabout%2F",     "permanent": true },
+    { "source": "/about/",     "destination": "/?next=%2Fabout%2F",     "permanent": true },
+    { "source": "/live",       "destination": "/?next=%2Flive%2F",      "permanent": true },
+    { "source": "/live/",      "destination": "/?next=%2Flive%2F",      "permanent": true },
+    { "source": "/contact",    "destination": "/?next=%2Fcontact%2F",   "permanent": true },
+    { "source": "/contact/",   "destination": "/?next=%2Fcontact%2F",   "permanent": true },
+    { "source": "/press-kit",  "destination": "/?next=%2Fpress-kit%2F", "permanent": true },
+    { "source": "/press-kit/", "destination": "/?next=%2Fpress-kit%2F", "permanent": true }
   ]
 }

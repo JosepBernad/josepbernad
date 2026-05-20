@@ -2,6 +2,50 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.22.0] - 2026-05-20
+
+### Changed
+- Home hero "Upcoming shows" pill replaced with a compact calendar-event card (date column + event title + venue + time) that mirrors the date block used on `/live/`. Removes the animated dot and uppercase "UPCOMING SHOWS · NEXT…" wording that read as a generic notification badge. The venue label drops anything after the first comma to keep it short. Unused `home.nextShow.label` / `home.nextShow.next` i18n keys and the matching loader line in `src/js/main.js` removed.
+
+### Added
+- Deep-link to a single live event via the URL hash. Every `<article class="live-card">` (upcoming and past) now carries a stable `id="event-{YYYY-MM-DD}-{index}"`. On `/live/`, a small client script reads `location.hash`, smooth-scrolls the matching card into view (`block: 'center'`), and applies an `.is-highlighted` class for ~2 s — a neutral box-shadow ring (white in dark mode, black in light, no accent color). Also listens to `hashchange` so the highlight re-fires when re-anchoring. `scroll-margin-top: 6rem` clears the sticky header. The home calendar card now links to `/{lang}/live/#event-{date}-0` so clicking it lands on the next upcoming gig pre-highlighted.
+- Dev-only "share event" button on every `.live-card` (upcoming + past). Hidden behind `[data-dev]` and revealed by the existing `dev-affordances.njk` script (localhost or saved dev flag). Clicking copies `${origin}${pathname}#${id}` to the clipboard via `navigator.clipboard.writeText`, with a brief green-icon confirmation. Falls back to `window.prompt` if clipboard access is blocked.
+
+### Fixed
+- Restored the 2026-05-22 SEN Chill Beach Bar gig in `src/_data/live.json` (event, venue, time 18:30, map, description, lineup). It had been removed at some point during local edits.
+
+## [1.21.0] - 2026-05-20
+
+### Added
+- Root `/` is now a neutral language landing page (`src/index.njk`). It auto-redirects to the visitor's saved `lang-preference` when present; otherwise it shows EN/CA/ES buttons. Honours a `?next=<path>` query against a whitelist (`/films/`, `/about/`, `/live/`, `/contact/`, `/press-kit/`) so legacy section links deep-link into the picked language.
+- `vercel.json`: 308 redirects for every legacy unprefixed section (`/films`, `/about`, `/live`, `/contact`, `/press-kit`, with and without trailing slash) → `/?next=<urlencoded-path>` so old shared links land on the picker carrying the section.
+- Centralised dev affordances in `src/_includes/dev-affordances.njk` (included from `src/_includes/base.njk` on every page). Auto-active on localhost, with an easter-egg trigger: 5 taps on the home-page logo within 2 s flips a persistent `dev-mode` flag in `localStorage`. A "Reset storage" chip clears it. Reveals any `[data-dev][hidden]` element and sets `html[data-dev=true]`.
+- Custom video poster overlay in `src/_includes/video-modal.njk`: bypasses YouTube's low-res default thumbnail by probing `maxresdefault` and falling back to `hqdefault`. Tapping the poster is the user gesture that starts playback, so audio works on first play.
+- `?v=<videoId>` deep linking on the films page. Opening a video updates `location.search` to `?v=…`; loading a films URL with `?v=…` opens the matching card on first paint (skipping autoplay since there's no user gesture). Closing the modal strips `v` from the URL.
+- New `src/_includes/live-lineup.njk` macro renders DJ lineup rows (time + name with optional Instagram link). Used by `src/pages/live.njk` for upcoming events.
+- New `pastWithMediaDesc` Eleventy filter in `.eleventy.js`: same as `pastDesc` but filters past events down to those with a `videoId` or `soundcloudUrl`. The live page's past list now uses it so completed gigs without a recording drop off automatically.
+- Press-kit deep linking in `src/pages/press-kit.njk`: every section gets a stable `id` (`bio`, `formats`, `logos`, `rider`, `weddings`, `contact`); rider blocks carry `data-rider="dj"|"live"`. Two new client scripts: one mirrors every control click into URL params (`?bio=&logo=&color=&format=&rider=`), and another reads those same params on load to apply the matching variant, highlight the targeted format/rider, dim the non-targeted rider, and smooth-scroll to the lowest-priority targeted section.
+- New live entry in `src/_data/live.json`: "Cap Vermell Padel Tournament" (2026-06-06).
+- Lineup added to the 2026-05-24 Kaafu Beach Club gig (Josep Bernad → Julian Mielcarek).
+- Full 48-track tracklist for the past 2026-05-16 "Mainly House Music at Kyrat" gig (with soundcloudUrl) in `src/_data/live.json`.
+- New `dev:vercel` npm script (`vercel dev`) for the rare cases when local testing needs the Vercel redirect layer.
+
+### Changed
+- English routes move from `/` to `/en/`. `src/_data/languages.json` flips `en` from `prefix: ""` / `isDefault: true` to `prefix: "/en"` / `isDefault: false`, putting all three languages on equal footing. Updated everywhere the old assumption was hard-coded: `src/pages/home.njk` permalink, `.eleventy.js` (`urlLang`/`urlLangPrefix` filters now recognise `/en`), `src/sitemap.njk` (all English `loc`s gain `/en/`, `x-default` points at `/en/`), `src/_includes/base.njk` (hreflang and JSON-LD URLs), `src/_includes/header.njk` (EN lang-switcher href), `src/404.njk` (lang detection + nav rewrite), `src/_data/seo.json`, `src/_data/contact.json`, `src/llms.njk`, `src/llms-full.njk`.
+- `src/pages/live.njk` tracklist sharing footer drops the language prefix (was `josepbernad.com{{ currentPrefix }}/live`, now bare `josepbernad.com/live`) so a copied tracklist works for any audience.
+- `src/_includes/header.njk` home-page logo becomes a `<button data-dev-trigger>` (instead of a plain link) so the dev-mode easter egg can register taps; non-home pages keep the link.
+- `src/_data/live.json`: Kaafu Beach Club (2026-05-24) start time `19h` → `18h`.
+- `package.json` `dev` script now binds the port (`--port=${PORT:-8080}`) so it doesn't collide with whatever else is running.
+- `src/pages/press-kit.njk` removed two duplicated localhost-detection blocks now that `dev-affordances.njk` centralises the reveal.
+- `.eleventy.js`: dropped the `CNAME` and `.nojekyll` passthroughs (GitHub Pages leftovers, no longer relevant on Vercel).
+
+### Fixed
+- `.video-modal-close` is no longer interactive on mobile while the modal is closed. The previous mobile media query forced `opacity: 1; pointer-events: auto` unconditionally; combined with the modal's `opacity: 0` when inactive, this produced an invisible-but-clickable 44×44 hit target floating vertically centered, which intercepted taps on whatever sat behind it (e.g. an open mobile menu). The rule is now scoped to `.video-modal.active`.
+
+### Tests
+- `tests/e2e/i18n.test.js`: replaces the old "/ serves English" assertion with five tests covering the new architecture — `/` shows the picker, `/en/` serves English, saved preference auto-redirects, `?next=/films/` pre-fills button hrefs and deep-links when a preference is saved, and `?next=/evil/` is rejected by the whitelist.
+- `tests/e2e/modal.test.js`, `tests/e2e/theme.test.js`: navigate to `/en/...` since `/` no longer serves the app shell.
+
 ## [1.20.3] - 2026-05-17
 
 ### Fixed

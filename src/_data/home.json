@@ -9,10 +9,6 @@
       "contact": "Contact",
       "presskit": "Press Kit"
     },
-    "nextShow": {
-      "label": "Upcoming shows",
-      "next": "Next"
-    },
     "error": {
       "notFound": "Page not found",
       "notFoundDesc": "The page you're looking for doesn't exist or has been moved.",
@@ -37,10 +33,6 @@
       "contact": "Contacto",
       "presskit": "Press Kit"
     },
-    "nextShow": {
-      "label": "Próximos shows",
-      "next": "Próximo"
-    },
     "error": {
       "notFound": "Página no encontrada",
       "notFoundDesc": "La página que buscas no existe o ha sido movida.",
@@ -64,10 +56,6 @@
       "about": "Sobre mi",
       "contact": "Contacte",
       "presskit": "Press Kit"
-    },
-    "nextShow": {
-      "label": "Propers shows",
-      "next": "Proper"
     },
     "error": {
       "notFound": "Pàgina no trobada",

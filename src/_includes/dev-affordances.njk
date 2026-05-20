@@ -1,0 +1,62 @@
+{# Dev affordances. Renders the markup on every page; the inline script reveals
+   it when dev mode is active. Dev mode is active when:
+     - we're on a recognised localhost host, OR
+     - localStorage has `dev-mode=true` (set by the home logo easter egg:
+       5 quick taps on the header logo while on the home page).
+   The reset chip clears all localStorage, which also disables dev mode. #}
+<button type="button" id="dev-reset" class="dev-reset" data-dev hidden aria-label="Reset local storage (dev only)">Reset storage</button>
+<script>
+  (function () {
+    var DEV_FLAG = 'dev-mode';
+    var TAP_GOAL = 5;
+    var TAP_WINDOW_MS = 2000;
+
+    function isLocalhost() {
+      var h = location.hostname;
+      return h === 'localhost'
+        || h === '127.0.0.1'
+        || h === '0.0.0.0'
+        || h === '::1'
+        || h.endsWith('.local');
+    }
+    function isStoredDev() {
+      try { return localStorage.getItem(DEV_FLAG) === 'true'; } catch (_) { return false; }
+    }
+    function activateDev() {
+      document.documentElement.dataset.dev = 'true';
+      document.querySelectorAll('[data-dev][hidden]').forEach(function (el) {
+        el.removeAttribute('hidden');
+      });
+    }
+
+    if (isLocalhost() || isStoredDev()) {
+      activateDev();
+    }
+
+    var resetChip = document.getElementById('dev-reset');
+    if (resetChip) {
+      resetChip.addEventListener('click', function () {
+        try { localStorage.clear(); } catch (_) {}
+        location.reload();
+      });
+    }
+
+    // Easter egg: 5 taps within 2 s on the home logo flips the persistent flag.
+    // The trigger only exists on the home page (see header.njk).
+    var trigger = document.querySelector('[data-dev-trigger]');
+    if (trigger) {
+      var count = 0;
+      var timer = null;
+      trigger.addEventListener('click', function () {
+        count += 1;
+        clearTimeout(timer);
+        timer = setTimeout(function () { count = 0; }, TAP_WINDOW_MS);
+        if (count >= TAP_GOAL) {
+          count = 0;
+          try { localStorage.setItem(DEV_FLAG, 'true'); } catch (_) {}
+          activateDev();
+        }
+      });
+    }
+  })();
+</script>
