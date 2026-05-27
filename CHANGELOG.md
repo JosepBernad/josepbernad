@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.22.1] - 2026-05-27
+
+### Changed
+- Sitemap `<lastmod>` for the static pages (home, about, contact, press-kit) now reflects the date of the last git commit that touched the page's template or its data JSON, instead of the build date. Added a `gitLastMod` Eleventy filter (`git log -1 --format=%cs -- <files>`) that falls back to the build date when git history is unavailable (e.g. a shallow CI clone). `films` and `live` keep their existing content-driven dates.
+
 ## [1.22.0] - 2026-05-20
 
 ### Changed

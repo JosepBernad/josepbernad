@@ -1,4 +1,5 @@
 const { buildRider } = require("./scripts/build-rider.js");
+const { execSync } = require("child_process");
 
 const MONTHS_SHORT = {
   en: ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"],
@@ -97,6 +98,24 @@ module.exports = function(eleventyConfig) {
     return events
       .filter(ev => !ev.hidden && (ev.videoId || ev.soundcloudUrl))
       .sort((a, b) => new Date(b.date) - new Date(a.date));
+  });
+
+  // Last git commit date (YYYY-MM-DD) touching any of the given source
+  // files. Used for sitemap <lastmod> so static pages report when their
+  // content actually changed instead of the build date. Returns "" when
+  // git is unavailable or the file has no commit in the available history
+  // (e.g. a shallow CI clone); callers fall back to the build date.
+  eleventyConfig.addFilter("gitLastMod", (paths) => {
+    const files = (Array.isArray(paths) ? paths : [paths]).filter(Boolean);
+    if (files.length === 0) return "";
+    try {
+      return execSync(
+        `git log -1 --format=%cs -- ${files.map(f => `'${f}'`).join(" ")}`,
+        { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }
+      ).trim();
+    } catch {
+      return "";
+    }
   });
 
   // Add global data for language prefix based on URL
