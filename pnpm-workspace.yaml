@@ -1,0 +1,4 @@
+# pnpm blocks dependency build scripts by default. sharp is trusted here: it
+# is used by scripts/generate-favicons.js.
+allowBuilds:
+  sharp: true

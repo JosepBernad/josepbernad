@@ -82,7 +82,7 @@
 **CI Pipeline:**
 - Vercel Git Integration — auto-deploys on push to any branch
   - Trigger: push to `main` → Production deploy; push to other branches → Preview deploy
-  - Framework preset: Eleventy; Node 24.x; build command `npm run build`; output `_site/`
+  - Framework preset: Eleventy; Node 24.x; build command `pnpm run build`; output `_site/`
   - No secrets or environment variables required
 
 ## Environment Configuration

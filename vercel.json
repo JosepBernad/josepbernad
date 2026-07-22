@@ -1,7 +1,29 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "devCommand": "npm run dev",
+  "devCommand": "pnpm run dev",
+  "headers": [
+    {
+      "source": "/:lang(en|es|ca)/availability",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/:lang(en|es|ca)/availability/",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/:lang(en|es|ca)/a/availability",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/:lang(en|es|ca)/a/availability/",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
+  ],
   "redirects": [
+    { "source": "/availability",  "destination": "/es/availability/", "permanent": false },
+    { "source": "/availability/", "destination": "/es/availability/", "permanent": false },
+    { "source": "/a/availability",  "destination": "/es/a/availability/", "permanent": false },
+    { "source": "/a/availability/", "destination": "/es/a/availability/", "permanent": false },
     {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "www.josepbernad.com" }],

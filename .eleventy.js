@@ -118,6 +118,107 @@ module.exports = function(eleventyConfig) {
     }
   });
 
+  // True only under `eleventy --serve` (local dev), so templates can render
+  // preview-only affordances that must not ship to the deployed site.
+  eleventyConfig.addGlobalData("isDev", process.env.ELEVENTY_RUN_MODE === "serve");
+
+  // Build calendar month grids for the availability page from
+  // src/_data/availability.json. Weeks start on Monday. Days that fall
+  // outside the configured range render muted so the grid stays aligned.
+  // Any day inside the range that is not listed in `days` defaults to
+  // "available", so the JSON only needs to track exceptions.
+  eleventyConfig.addFilter("availabilityCalendar", (avail, lang, padded = false) => {
+    if (!avail || !avail.range) return [];
+    // Days flagged "fake" in availability.json are padding. Only the padded
+    // build (/[lang]/a/availability/) renders them, and there they look like
+    // any other reservation; the clean build drops them back to "available"
+    // so nothing about them reaches that page. On the localhost preview the
+    // padded ones are outlined so they stay distinguishable while editing.
+    const markFake = padded && process.env.ELEVENTY_RUN_MODE === "serve";
+    const MONTH_NAMES = {
+      es: [
+        "enero", "febrero", "marzo", "abril", "mayo", "junio",
+        "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+      ],
+      ca: [
+        "gener", "febrer", "març", "abril", "maig", "juny",
+        "juliol", "agost", "setembre", "octubre", "novembre", "desembre"
+      ],
+      en: [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ]
+    };
+    const MONTH_NAMES_ES = MONTH_NAMES[lang] || MONTH_NAMES.es;
+    const start = new Date(avail.range.start + "T00:00:00Z");
+    const end = new Date(avail.range.end + "T00:00:00Z");
+    if (isNaN(start) || isNaN(end) || start > end) return [];
+    const months = [];
+    let cursor = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), 1));
+    while (cursor <= end) {
+      const y = cursor.getUTCFullYear();
+      const m = cursor.getUTCMonth();
+      const daysInMonth = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+      const firstDow = (new Date(Date.UTC(y, m, 1)).getUTCDay() + 6) % 7; // Monday = 0
+      const name = MONTH_NAMES_ES[m];
+      // Catalan elides the preposition before a vowel ("1 d'agost", not
+      // "1 de agost"). Spanish keeps "de" in every case; English puts the
+      // month first and needs no preposition at all.
+      const de = (lang === "ca" && /^[aeiou]/i.test(name)) ? "d'" : "de ";
+      const dayLabel = (d) => lang === "en" ? `${name} ${d}` : `${d} ${de}${name}`;
+
+      const cells = [];
+      const notes = [];
+      for (let i = 0; i < firstDow; i++) cells.push(null);
+      for (let d = 1; d <= daysInMonth; d++) {
+        const iso = `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+        const date = new Date(iso + "T00:00:00Z");
+        if (date < start || date > end) {
+          cells.push({ day: d, out: true });
+          continue;
+        }
+        const entry = (avail.days && avail.days[iso]) || {};
+        // Outside the padded build a fake day is treated as if it were never
+        // listed at all: no status, no note, no marker.
+        const info = (!padded && entry.fake === true) ? {} : entry;
+        const cell = {
+          day: d,
+          iso,
+          label: dayLabel(d),
+          status: info.status || "available",
+          note: info.note || "",
+          fake: markFake && info.fake === true
+        };
+        cells.push(cell);
+        if (cell.note) notes.push({ day: d, label: cell.label, note: cell.note });
+      }
+      while (cells.length % 7 !== 0) cells.push(null);
+      const weeks = [];
+      for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+      months.push({
+        year: y,
+        name,
+        de,
+        ym: `${y}-${String(m + 1).padStart(2, "0")}`,
+        weeks,
+        notes
+      });
+      cursor = new Date(Date.UTC(y, m + 1, 1));
+    }
+    return months;
+  });
+
+  // Long-form localized date ("21 de julio de 2026") from an ISO date,
+  // used by the availability page's "last updated" line.
+  eleventyConfig.addFilter("availabilityDate", (iso, lang) => {
+    const locales = { es: "es-ES", ca: "ca-ES", en: "en-GB" };
+    const d = new Date(iso + "T00:00:00Z");
+    if (isNaN(d)) return iso;
+    return new Intl.DateTimeFormat(locales[lang] || locales.es, {
+      day: "numeric", month: "long", year: "numeric", timeZone: "UTC"
+    }).format(d);
+  });
+
   // Add global data for language prefix based on URL
   eleventyConfig.addGlobalData("eleventyComputed", {
     urlLangPrefix: (data) => {

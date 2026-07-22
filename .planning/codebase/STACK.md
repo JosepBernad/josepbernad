@@ -18,8 +18,9 @@
 - Node.js 24.x (configured in `.vercel/project.json`; used by Vercel builds)
 
 **Package Manager:**
-- npm
-- Lockfile: `package-lock.json` present (lockfileVersion 3)
+- pnpm
+- Lockfile: `pnpm-lock.yaml`
+- `pnpm-workspace.yaml` approves the `sharp` native build (used by the favicon script)
 
 ## Frameworks
 
@@ -76,8 +77,8 @@
 
 **Development:**
 - Node.js 20+
-- npm (for `npm ci` / `npm install`)
-- Run `npm run dev` for local dev server
+- pnpm (for `pnpm install`)
+- Run `pnpm run dev` for local dev server
 
 **Production:**
 - Static files only — no server runtime required

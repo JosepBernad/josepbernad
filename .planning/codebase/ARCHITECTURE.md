@@ -85,7 +85,7 @@
 
 **Eleventy Config:**
 - Location: `.eleventy.js`
-- Triggers: `npm run build` or `npm run dev`
+- Triggers: `pnpm run build` or `pnpm run dev`
 - Responsibilities: Registers passthrough copies, adds computed global data, sets input/output directories and template engine
 
 **Client JS Entry:**

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.23.0] - 2026-07-22
+
+### Added
+- New availability calendar at `/{lang}/availability/`, driven by `src/_data/availability.json`. Month grids start on Monday, days inside `range` default to "available" so the JSON only tracks exceptions, and a client script mutes days before the visitor's own current date instead of the build date. Two Eleventy filters back it: `availabilityCalendar` (builds the month/week cells, localized month names, Catalan `d'` elision) and `availabilityDate` (long-form localized "last updated" line). The page is standalone (no site chrome) and carries `noindex, nofollow` in both the meta tag and an `X-Robots-Tag` header.
+- Second build of the same calendar at `/{lang}/a/availability/` that also renders the days flagged `"fake": true` in the JSON, for sharing a fuller-looking agenda. The split happens at build time via `src/_data/availabilityViews.js` (paginates the template over language x variant), so the clean URL's HTML contains no trace of the flagged days: they fall back to "available" and any note on them is dropped. Under `eleventy --serve` the flagged days get a dashed outline on the padded page only, so they stay distinguishable while editing.
+- `isDev` global data (`ELEVENTY_RUN_MODE === "serve"`) for preview-only affordances that must not ship.
+- `vercel.json` redirects for the unprefixed `/availability` and `/a/availability` (with and without trailing slash) to their `/es/` equivalents.
+
+### Changed
+- Switched the package manager from npm to pnpm: `package-lock.json` removed, `pnpm-lock.yaml` added, and `pnpm-workspace.yaml` approves the `sharp` native build used by the favicon script. Updated the npm references in `package.json` scripts, `playwright.config.js` `webServer.command`, `vercel.json` `devCommand`, the rider preview header comment, and the `.planning/codebase` docs.
+
+### Fixed
+- Flaky video modal e2e tests. `beforeEach` now waits on `typeof window.openVideo === 'function'` instead of `networkidle`, which tied the tests to jsDelivr latency (the films page loads vidstack from a CDN). The "close button dismisses the modal" test is skipped above 750px, where the button stays `opacity: 0` until the Vidstack player renders its controls; desktop dismissal is still covered by the Escape and backdrop tests.
+
 ## [1.22.1] - 2026-05-27
 
 ### Changed

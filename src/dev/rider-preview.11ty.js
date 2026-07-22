@@ -1,7 +1,7 @@
 /**
  * Localhost-only preview for the technical rider PDFs.
  *
- * Reachable at /dev/rider/ when running `npm run dev` (eleventy --serve).
+ * Reachable at /dev/rider/ when running `pnpm run dev` (eleventy --serve).
  * The whole src/dev/ folder is ignored outside serve mode in .eleventy.js,
  * so this page never reaches production.
  *

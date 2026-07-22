@@ -3204,8 +3204,12 @@ html:has(.error-page) body::after {
   pointer-events: none;
 }
 
-/* Show close button when player controls are visible */
-.video-modal-wrapper:has(media-player[data-controls]) > .video-modal-close {
+/* Show close button when player controls are visible, and while the poster
+   overlay is still up: before the first play there are no player controls,
+   so without this the modal can only be dismissed with Escape or a click
+   outside it. */
+.video-modal-wrapper:has(media-player[data-controls]) > .video-modal-close,
+.video-modal-wrapper:has(.video-poster:not([hidden]):not(.is-hiding)) > .video-modal-close {
   opacity: 1;
   pointer-events: auto;
 }
@@ -5926,5 +5930,342 @@ body.lang-landing {
   opacity: 1;
   background: var(--header-control-bg-hover);
   outline: none;
+}
+
+
+
+/* ============================================
+   Availability page (/availability/, unlisted)
+   ============================================ */
+
+.avail-body {
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* No photo background here: replace the global body::before image with a
+   soft fade built from the same theme palette. */
+[data-theme="light"] body.avail-body::before,
+[data-theme="dark"] body.avail-body::before {
+  opacity: 1;
+}
+
+[data-theme="light"] body.avail-body::before {
+  background-image:
+    radial-gradient(70rem 40rem at 75% -10%, rgba(255, 255, 255, 0.55), transparent 60%),
+    linear-gradient(180deg, #e2eef0 0%, #cadee1 55%, #b7d0d4 100%);
+}
+
+[data-theme="dark"] body.avail-body::before {
+  background-image:
+    radial-gradient(70rem 40rem at 75% -10%, rgba(96, 158, 170, 0.22), transparent 60%),
+    linear-gradient(180deg, #1c3237 0%, #13191a 60%, #101415 100%);
+}
+
+[data-theme="light"] .avail-body { color: #1a1a1a; }
+[data-theme="dark"]  .avail-body { color: #f5f5f5; }
+
+.avail-wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding-top: clamp(2.5rem, 6vw, 4.5rem);
+  padding-bottom: 4rem;
+}
+
+.avail-hero {
+  margin-bottom: 2rem;
+}
+
+/* Top bar: brandline lockup only, aligned to the left. It is the same lockup
+   used on the client report covers (monogram, hairline rule, name over role);
+   the mark is inlined so it can take currentColor and follow the theme, instead
+   of swapping between the black and white press-kit files. The role line
+   carries "Booking & Availability", so there is no separate page title. */
+.avail-topbar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+/* Static identity block: not a link, so no hover or focus treatment. */
+.avail-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.15rem;
+  color: inherit;
+}
+
+/* Width follows from the 400x498 viewBox. */
+.avail-brand-mark {
+  display: block;
+  height: 3.4rem;
+  width: calc(3.4rem * 400 / 498);
+  fill: currentColor;
+  flex: none;
+}
+
+.avail-brand-sep {
+  width: 1px;
+  height: 2.9rem;
+  background: currentColor;
+  opacity: 0.25;
+  flex: none;
+}
+
+.avail-brand-tag {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+/* The outlined "JOSEP BERNAD" wordmark. Width follows from the 1845x324
+   viewBox. Rendered as a themed background so it swaps black/white with the
+   rest of the page. */
+.avail-brand-word {
+  display: block;
+  height: 2.5rem;
+  width: calc(2.5rem * 1845 / 324);
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: contain;
+}
+
+[data-theme="light"] .avail-brand-word {
+  background-image: url("/press-kit/josep-bernad-wordmark-black.svg");
+}
+[data-theme="dark"] .avail-brand-word {
+  background-image: url("/press-kit/josep-bernad-wordmark-white.svg");
+}
+
+.avail-brand-role {
+  font-family: 'Sedan', serif;
+  font-size: 0.95rem;
+  opacity: 0.6;
+  margin-top: 6px;
+}
+
+@media (max-width: 480px) {
+  .avail-brand {
+    gap: 0.85rem;
+  }
+  .avail-brand-mark {
+    height: 2.6rem;
+    width: calc(2.6rem * 400 / 498);
+  }
+  .avail-brand-sep {
+    height: 2.2rem;
+  }
+  .avail-brand-word {
+    height: 1.8rem;
+    width: calc(1.8rem * 1845 / 324);
+  }
+  .avail-brand-role {
+    font-size: 0.8rem;
+  }
+}
+
+/* Legend */
+.avail-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+@media (min-width: 768px) {
+  .avail-legend {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.4rem;
+  }
+}
+
+.avail-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.avail-legend-note {
+  font-size: 0.78rem;
+  opacity: 0.6;
+  margin-top: 0.5rem;
+}
+
+.avail-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.avail-dot--available   { background: #3f9d6e; }
+.avail-dot--reservation { background: #d9a13b; }
+.avail-dot--unavailable { background: #b3554f; }
+
+/* Month cards */
+.avail-months {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.avail-month {
+  border-radius: 14px;
+  padding: 1.1rem 1.1rem 1.25rem;
+}
+
+[data-theme="light"] .avail-month {
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .avail-month {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.avail-month-title {
+  font-family: 'Sedan', serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+  margin-bottom: 0.85rem;
+}
+
+.avail-month-year {
+  font-size: 0.85rem;
+  opacity: 0.5;
+}
+
+/* Day grid */
+.avail-dow,
+.avail-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+
+.avail-dow {
+  margin-bottom: 0.35rem;
+}
+
+.avail-dow span {
+  text-align: center;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.45;
+  padding: 0.2rem 0;
+  border-radius: 6px;
+}
+
+.avail-dow .avail-dow-weekend {
+  opacity: 0.75;
+  background: var(--header-control-bg);
+}
+
+.avail-week + .avail-week {
+  margin-top: 0.25rem;
+}
+
+.avail-day {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.avail-day--empty {
+  visibility: hidden;
+}
+
+.avail-day--out {
+  opacity: 0.25;
+}
+
+.avail-day--available {
+  background: rgba(63, 157, 110, 0.16);
+  color: inherit;
+  box-shadow: inset 0 0 0 1px rgba(63, 157, 110, 0.45);
+}
+
+.avail-day--reservation {
+  background: rgba(217, 161, 59, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(217, 161, 59, 0.55);
+}
+
+.avail-day--unavailable {
+  background: rgba(179, 85, 79, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(179, 85, 79, 0.35);
+  opacity: 0.55;
+}
+
+/* Padding reservations. The .avail-day--fake class is only emitted by
+   `eleventy --serve`, so this styling can never reach the published page. */
+.avail-day--fake {
+  outline: 1px dashed rgba(217, 161, 59, 0.9);
+  outline-offset: 2px;
+}
+
+.avail-day--fake::after {
+  content: "";
+  position: absolute;
+  bottom: 0.18rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0.9rem;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(217, 161, 59, 0.9);
+}
+
+/* Days before the visitor's current date (set client-side) */
+.avail-day.avail-day--past {
+  background: transparent;
+  box-shadow: none;
+  opacity: 0.25;
+}
+
+.avail-note-mark {
+  position: absolute;
+  top: 0.15rem;
+  right: 0.3rem;
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
+/* Per-month notes */
+.avail-notes {
+  list-style: none;
+  margin-top: 0.9rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+.avail-notes li + li {
+  margin-top: 0.3rem;
+}
+
+/* Footer CTA */
+.avail-cta {
+  margin-top: 2.5rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 52ch;
+}
+
+.avail-cta a {
+  color: inherit;
+  text-underline-offset: 3px;
 }
 

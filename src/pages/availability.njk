@@ -1,0 +1,170 @@
+---
+pagination:
+  data: availabilityViews
+  size: 1
+  alias: view
+permalink: "{{ view.permalink }}"
+eleventyExcludeFromCollections: true
+eleventyComputed:
+  currentLang: "{{ view.lang.code }}"
+---
+{% set t = {
+  es: {
+    title: "Disponibilidad",
+    description: "Calendario de disponibilidad para actuaciones de Josep Bernad.",
+    brandRole: "Booking & Disponibilidad",
+    updated: "Última actualización",
+    available: "Disponible",
+    reservation: "Reserva sin confirmar, consultar",
+    unavailable: "No disponible",
+    legendLabel: "Leyenda",
+    dows: ["L", "M", "X", "J", "V", "S", "D"]
+  },
+  ca: {
+    title: "Disponibilitat",
+    description: "Calendari de disponibilitat per a actuacions de Josep Bernad.",
+    brandRole: "Booking & Disponibilitat",
+    updated: "Darrera actualització",
+    available: "Disponible",
+    reservation: "Reserva sense confirmar, consultar",
+    unavailable: "No disponible",
+    legendLabel: "Llegenda",
+    dows: ["dl", "dt", "dc", "dj", "dv", "ds", "dg"]
+  },
+  en: {
+    title: "Availability",
+    description: "Availability calendar for Josep Bernad performances.",
+    brandRole: "Booking & Availability",
+    updated: "Last updated",
+    available: "Available",
+    reservation: "Reservation (not confirmed, please ask)",
+    unavailable: "Unavailable",
+    legendLabel: "Legend",
+    dows: ["M", "T", "W", "T", "F", "S", "S"]
+  }
+}[currentLang] %}
+<!DOCTYPE html>
+<html lang="{{ currentLang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{{ t.title }} | Josep Bernad</title>
+  <meta name="description" content="{{ t.description }}">
+
+  {# Private-ish page: reachable only by direct link, kept out of search engines. #}
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Theme bootstrap: set data-theme before paint to avoid FOUC. -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme-preference');
+        var theme = saved || 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (_) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon-light.svg" type="image/svg+xml" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- Fonts (self-hosted Sedan, see /css/styles.css @font-face) -->
+  <link rel="preload" as="font" type="font/woff2" href="/css/fonts/sedan-regular-latin.woff2" crossorigin>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="avail-body">
+
+  <main class="content">
+    <div class="section-container avail-wrap">
+
+      {# Brandline lockup (monogram, hairline rule, name over role). The role
+         line carries "Booking & Availability"; there is no separate page title. #}
+      <div class="avail-topbar">
+        <div class="avail-brand">
+          <svg class="avail-brand-mark" viewBox="0 0 400 498" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path d="m367.28 206.84q-25.5-24.47-71.45-32.48v-1.99c13.68-2.66 25.88-7.58 36.72-14.73 10.84-7.17 19.39-15.82 25.73-26q9.47-15.22 9.48-33.21 0.01-21.98-12.98-41.46-12.99-19.49-40.96-31.73-27.97-12.23-73.92-12.24h-1.79-6.39-155.81c-1.36 0-2.47 1.11-2.47 2.47v15.64c0 1.37 1.11 2.47 2.47 2.47h36.44q1.54 3.42 2.83 10.15 1.72 9.23 1.73 28.72v214.32q0.01 11.98-0.48 32.72-0.5 20.74-1.99 43.71c-1.03 15.32-2.51 29.64-4.5 42.97q-3.03 19.97-8 30.47c-2.32 4.32-5.34 7.99-8.99 10.99-3.69 2.99-8.67 4.5-15.01 4.5q-8.97-0.01-22.97-3.25-14-3.25-24.96-9.75-22.01 8.49-22.01 27.49 0.01 7.48 5.27 11.48 5.27 3.99 11.47 5.24c4.16 0.83 7.45 1.25 9.77 1.25 18.62 0 35.8-3.83 51.43-11.48 15.67-7.67 29.39-17.99 41.22-30.97 11.84-13 21.05-27.49 27.73-43.47q8.5-20.98 10.98-50.95c1.7-19.99 2.51-41.8 2.51-65.45v-231.29q-0.01-12.26 3.57-17.4h59.77c18.22 0.71 33.66 3.63 45.12 9.65q19.51 10.24 28.24 25.98 8.74 15.74 8.74 33.22-0.01 15.98-8.48 30.47-8.51 14.49-25.48 23.23c-9.86 5.07-37.6 7.81-45.86 8.41-1.29 0.09-2.28 1.17-2.28 2.46v15.31c0 1.27 0.98 2.33 2.25 2.45 14.61 1.39 27.88 3.25 38.37 6.1q23.99 6.49 36.98 16.97c8.67 6.99 14.64 14.99 17.99 23.99q4.98 13.49 4.98 28.98-0.01 28.97-21.2 48.2c-14.19 12.82-35.58 19.23-64.22 19.23h-15.15-37.44c-1.31 0-2.39 1.03-2.46 2.34q-0.42 7.69-0.99 14.99c-0.11 1.43 1.02 2.65 2.46 2.65h38.43 18.65q45.46 0.01 77.2-12.24 31.69-12.22 48.45-32.22 16.75-19.97 16.74-42.95 0.01-29.48-25.48-53.96z"/>
+          </svg>
+          <span class="avail-brand-sep" aria-hidden="true"></span>
+          <span class="avail-brand-tag">
+            {# Real outlined wordmark from the logos repo, not live Sedan text,
+               so the weight matches the brand. Swapped black/white by theme. #}
+            <span class="avail-brand-word" role="img" aria-label="Josep Bernad"></span>
+            <span class="avail-brand-role">{{ t.brandRole }}</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="contact-hero avail-hero">
+        <p class="contact-hero-sub">{{ t.updated }}: {{ availability.updated | availabilityDate(currentLang) }}.</p>
+      </div>
+
+      <div class="avail-legend" aria-label="{{ t.legendLabel }}">
+        <span class="avail-legend-item"><span class="avail-dot avail-dot--available" aria-hidden="true"></span> {{ t.available }}</span>
+        <span class="avail-legend-item"><span class="avail-dot avail-dot--reservation" aria-hidden="true"></span> {{ t.reservation }}</span>
+        <span class="avail-legend-item"><span class="avail-dot avail-dot--unavailable" aria-hidden="true"></span> {{ t.unavailable }}</span>
+      </div>
+
+      <div class="avail-months">
+        {% for month in availability | availabilityCalendar(currentLang, view.padded) %}
+        <section class="avail-month">
+          <h2 class="avail-month-title">{{ month.name }} <span class="avail-month-year">{{ month.year }}</span></h2>
+          <div class="avail-grid" role="grid">
+            <div class="avail-dow" role="row">
+              {% for dow in t.dows %}<span role="columnheader"{% if loop.index > 5 %} class="avail-dow-weekend"{% endif %}>{{ dow }}</span>{% endfor %}
+            </div>
+            {% for week in month.weeks %}
+            <div class="avail-week" role="row">
+              {% for cell in week %}
+                {% if cell === null %}
+                <span class="avail-day avail-day--empty" role="gridcell" aria-hidden="true"></span>
+                {% elif cell.out %}
+                <span class="avail-day avail-day--out" role="gridcell">{{ cell.day }}</span>
+                {% else %}
+                {# Status is colour-coded, so spell it out for screen readers. #}
+                <span class="avail-day avail-day--{{ cell.status }}{% if cell.fake %} avail-day--fake{% endif %}" role="gridcell" data-date="{{ cell.iso }}"
+                      aria-label="{{ cell.label }}: {{ t[cell.status] }}{% if cell.note %}. {{ cell.note }}{% endif %}"
+                      {% if cell.fake %} title="Reserva ficticia (solo visible en local)"{% elif cell.note %} title="{{ cell.note }}"{% endif %}>
+                  <span aria-hidden="true">{{ cell.day }}{% if cell.note %}<span class="avail-note-mark">*</span>{% endif %}</span>
+                </span>
+                {% endif %}
+              {% endfor %}
+            </div>
+            {% endfor %}
+          </div>
+          {% if month.notes.length %}
+          <ul class="avail-notes">
+            {% for n in month.notes %}
+            <li><strong>{{ n.label }}:</strong> {{ n.note }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </section>
+        {% endfor %}
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+  // Mute days before the visitor's current date so "past" tracks real
+  // time instead of the build date.
+  (function () {
+    var now = new Date();
+    var todayIso = now.getFullYear() + '-' +
+      String(now.getMonth() + 1).padStart(2, '0') + '-' +
+      String(now.getDate()).padStart(2, '0');
+    document.querySelectorAll('.avail-day[data-date]').forEach(function (el) {
+      if (el.getAttribute('data-date') < todayIso) el.classList.add('avail-day--past');
+    });
+  })();
+  </script>
+
+</body>
+</html>
