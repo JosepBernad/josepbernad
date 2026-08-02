@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-21",
+  "updated": "2026-08-02",
   "range": { "start": "2026-07-21", "end": "2026-10-31" },
   "days": {
     "2026-07-21": { "status": "unavailable" },
@@ -18,7 +18,7 @@
     "2026-08-09": { "status": "unavailable" },
     "2026-08-10": { "status": "unavailable" },
     "2026-08-12": { "status": "reservation", "fake": true },
-    "2026-08-14": { "status": "reservation", "fake": true },
+    "2026-08-14": { "status": "unavailable" },
     "2026-08-15": { "status": "unavailable" },
     "2026-08-17": { "status": "unavailable" },
     "2026-08-21": { "status": "unavailable" },

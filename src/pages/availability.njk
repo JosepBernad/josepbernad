@@ -113,7 +113,7 @@ eleventyComputed:
 
       <div class="avail-months">
         {% for month in availability | availabilityCalendar(currentLang, view.padded) %}
-        <section class="avail-month">
+        <section class="avail-month" data-ym="{{ month.ym }}">
           <h2 class="avail-month-title">{{ month.name }} <span class="avail-month-year">{{ month.year }}</span></h2>
           <div class="avail-grid" role="grid">
             <div class="avail-dow" role="row">
@@ -153,13 +153,17 @@ eleventyComputed:
   </main>
 
   <script>
-  // Mute days before the visitor's current date so "past" tracks real
-  // time instead of the build date.
+  // Track real time instead of the build date: drop months that have already
+  // ended for the visitor, and mute days before the visitor's current date.
   (function () {
     var now = new Date();
     var todayIso = now.getFullYear() + '-' +
       String(now.getMonth() + 1).padStart(2, '0') + '-' +
       String(now.getDate()).padStart(2, '0');
+    var currentYm = todayIso.slice(0, 7);
+    document.querySelectorAll('.avail-month[data-ym]').forEach(function (el) {
+      if (el.getAttribute('data-ym') < currentYm) el.remove();
+    });
     document.querySelectorAll('.avail-day[data-date]').forEach(function (el) {
       if (el.getAttribute('data-date') < todayIso) el.classList.add('avail-day--past');
     });

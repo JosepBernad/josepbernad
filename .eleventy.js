@@ -153,9 +153,18 @@ module.exports = function(eleventyConfig) {
     const start = new Date(avail.range.start + "T00:00:00Z");
     const end = new Date(avail.range.end + "T00:00:00Z");
     if (isNaN(start) || isNaN(end) || start > end) return [];
+    // Months already over at build time never render; a client-side pass on
+    // the page removes any month that finishes between deploys, so both the
+    // HTML and the visitor's view only ever show the current month onward.
+    const today = new Date();
+    const firstOfCurrentMonth = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1));
     const months = [];
     let cursor = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), 1));
     while (cursor <= end) {
+      if (cursor < firstOfCurrentMonth) {
+        cursor = new Date(Date.UTC(cursor.getUTCFullYear(), cursor.getUTCMonth() + 1, 1));
+        continue;
+      }
       const y = cursor.getUTCFullYear();
       const m = cursor.getUTCMonth();
       const daysInMonth = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();

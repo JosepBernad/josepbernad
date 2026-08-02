@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.23.1] - 2026-08-02
+
+### Changed
+- Availability calendar no longer shows months that have already ended: the `availabilityCalendar` filter skips them at build time, and the page's inline script also removes any month that finishes between deploys so the visitor's view tracks real time.
+- Marked 2026-08-14 as booked (`unavailable`) in `src/_data/availability.json` (it was previously a fake padding reservation) and bumped the `updated` date to 2026-08-02.
+
 ## [1.23.0] - 2026-07-22
 
 ### Added
