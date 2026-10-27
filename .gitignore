@@ -31,3 +31,6 @@ playwright-report/
 
 # Claude Code local state
 .claude/
+
+# One-off rider/deliverable output
+out/
